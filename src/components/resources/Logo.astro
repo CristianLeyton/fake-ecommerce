@@ -1,3 +1,26 @@
-<span class="">
-    LOGO
-</span>
+---
+import logo from '@components/resources/images/logo.webp';
+import logoDark from '@components/resources/images/logo-dark.webp';
+---
+
+<span class="logoData" data-logo={logo.src} data-logo-dark={logoDark.src}>
+  <img id="logo" src={logo.src} alt="Logo"> 
+</span> 
+
+<script is:inline>
+  // Escuchar el evento `user:toggleTheme` a nivel de `window` que viene del componente SetThme.astro
+  window.addEventListener("user:toggleTheme", () => {
+    const theme = localStorage.getItem('theme');
+    const logo = document.querySelector('#logo');
+    const logoData = document.querySelector('.logoData');
+
+    const urlLogo = logoData.getAttribute('data-logo');
+    const urlLogoDark = logoData.getAttribute('data-logo-dark');
+
+    if (theme === 'dark') {
+      logo.setAttribute('src', urlLogoDark);
+    } else {
+      logo.setAttribute('src', urlLogo);
+    }
+  });
+</script>

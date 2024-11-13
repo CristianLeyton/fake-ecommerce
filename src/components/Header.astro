@@ -5,10 +5,54 @@ import SetTheme from '@components/resources/SetTheme.astro';
 
 ---
 
-<header class="flex justify-between items-center px-4 border border-yellow-100 bg-yellow-50/50 rounded-full">
-    <Logo />
-    <nav class="flex justify-between items-center">
-        <HamburguerIcon />
-        <SetTheme />
-    </nav>
-</header>
+<header id="header" class="flex flex-wrap sticky top-4 overflow-hidden md:flex-nowrap justify-between items-center my-4 px-3 border border-yellow-100/20 bg-yellow-50/50 rounded-[2rem] dark:bg-neutral-800 dark:border-neutral-700/60 h-[70px]">
+    <a href="/" class="w-44"><Logo /></a>
+
+    <div class="flex items-start w-full md:w-auto md:items-center gap-2">
+        <div class="buttons flex items-center order-1 relative -top-12 md:top-0">
+            <button id="menu-icon"><HamburguerIcon /></button>
+            <button><SetTheme /></button>
+        </div>
+
+        <nav class="flex flex-col p-2 last:mb-2 md:last:mb-0 md:flex-row md:flex gap-5 *:font-semibold *:text-sm *:transition w-full">
+                <a href="#" class="hover:text-orange-500 active:text-black dark:active:text-white">Inicio</a>
+                <a href="#" class="hover:text-orange-500 active:text-black dark:active:text-white">Cateogorias</a>
+                <a href="#" class="hover:text-orange-500 active:text-black dark:active:text-white">Productos</a>
+                <a href="#" class="hover:text-orange-500 active:text-black dark:active:text-white">Nosotros</a>
+                <a href="#test" class="hover:text-orange-500 active:text-black dark:active:text-white">Contacto</a>
+        </nav>
+        </div>
+    </header>
+
+<style>
+    :root {
+  interpolate-size: allow-keywords;
+}
+    #header {
+        transition: all 0.2s ease-out;
+        backdrop-filter: blur(16px);
+    }
+</style>
+
+<script>
+    const headerElement = document.querySelector("#header");
+
+    document.querySelector('#menu-icon').addEventListener('click', (event)=> {
+        headerElement.classList.toggle('h-[70px]');
+        
+        // Evitar que el click en el botón cierre el menú inmediatamente
+        event.stopPropagation();
+
+        // Escuchar clics en cualquier lugar del documento
+        document.addEventListener("click", (event) => {
+        // Verificar si el clic fue fuera del submenú y del botón
+        if (
+            //@ts-ignore
+/*             !headerElement.contains(event.target) && */ //Este no cierra el menu cuando doy click en algun item del mismo
+            event.target !== headerElement //Este si cierra el menu cuando clickeo algun elemento de dentro del menu, o fuera
+        ) {
+            headerElement.classList.add("h-[70px]");
+        }
+        });
+    })
+</script>

@@ -1,36 +1,39 @@
 ---
-import MoonIcon from '@icons/MoonIcon.astro'
-import SunIcon from '@icons/SunIcon.astro'
+import MoonIcon from "@icons/MoonIcon.astro";
+import SunIcon from "@icons/SunIcon.astro";
 ---
 
-<button id="themeToggle" class="p-2 text-gray-700 rounded-full transition hover:bg-gray-200 hover:text-orange-600">
-  <span id="moonIcon" class="hidden"><MoonIcon/></span>
-  <span id="sunIcon" class=""><SunIcon /></span>
-  
-</button>
+<span
+  id="themeToggle"
+  class="block p-2 text-gray-700 rounded-full transition hover:bg-gray-200 hover:text-orange-500 dark:text-gray-400 dark:hover:bg-neutral-700"
+>
+  <span id="moonIcon"><MoonIcon /></span>
+  <span id="sunIcon" class="hidden"><SunIcon /></span>
+</span>
 
+<script is:inline>
+  const tagHTML = document.documentElement;
+  const button = document.querySelector("#themeToggle");
+  const moonIcon = document.querySelector("#moonIcon");
+  const sunIcon = document.querySelector("#sunIcon");
 
-<script>
+  // Comprobar tema guardado en localStorage
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    tagHTML.classList.add(savedTheme);
+  }
 
-    const tagHTML = document.documentElement;
-    const button = document.querySelector('#themeToggle');
-    const moonIcon = document.querySelector('#moonIcon');
-    const sunIcon = document.querySelector('#sunIcon');
-    
-    
-    // Comprobar tema guardado en localStorage
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      tagHTML.classList.add(savedTheme);
-    }
+  // Alternar tema al hacer clic
+  button.addEventListener("click", () => {
+    tagHTML.classList.toggle("dark");
+    const newTheme = tagHTML.classList.contains("dark") ? "dark" : "light";
+    localStorage.setItem("theme", newTheme);
 
-    // Alternar tema al hacer clic
-    button.addEventListener('click', () => {
-      tagHTML.classList.toggle('dark');
-      const newTheme = tagHTML.classList.contains('dark') ? 'dark' : 'light';
-      localStorage.setItem('theme', newTheme);
-      moonIcon.classList.toggle('hidden');
-      sunIcon.classList.toggle('hidden');
-    });
+    moonIcon.classList.toggle("hidden");
+    sunIcon.classList.toggle("hidden");
 
+    // Enviar el evento a nivel de `window` para cambiar el logo en el componente logo.astro
+    window.dispatchEvent(new CustomEvent("user:toggleTheme", {
+    }));
+  });
 </script>

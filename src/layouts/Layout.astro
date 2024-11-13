@@ -7,7 +7,7 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es" class="">
+<html lang="es" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description" />
@@ -16,7 +16,16 @@ const { title } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="bg-gray-200 text-neutral-800 dark:text-gray-200 dark:bg-neutral-800 px-8 container mx-auto">
+	<body class="bg-gray-200 text-neutral-800 dark:text-gray-200 dark:bg-neutral-800 px-3 container mx-auto">
 		<slot />
+
+		<div id="test"> Lorem ipsum dolor sit amet <span class="font-bold">adipisicing elit.</span>  Repudiandae doloremque cum asperiores iusto ipsa ipsum mollitia! Eligendi voluptatem aliquam dolore vero quae corporis enim, officiis saepe consequatur quas, ipsam similique.</div>
+		<div class="h-dvh">
+			<div class="flex">
+			<div class="h-48 w-full bg-neutral-800"></div>
+			<div class="h-48 w-full  bg-orange-500"></div>
+		</div>
+		
+	</div>
 	</body>
 </html>
