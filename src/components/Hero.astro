@@ -1,0 +1,41 @@
+---
+import ButtonPrimary from "@components/resources/ButtonPrimary.astro";
+import ButtonSecondary from "@components/resources/ButtonSecondary.astro";
+import fireworksBanner from "@components/resources/images/fireworksBanner.webp";
+---
+
+<section id="Hero" class="mt-4 p-2 flex flex-col md:flex-row justify-between md:items-center gap-8 xl:justify-around">
+  <div class="flex flex-col gap-4 md:max-w-[50%]">
+    <h1 class="text-4xl sm:text-4xl lg:text-5xl font-bold text-nowrap">
+      Celebra Estas Fiestas <br /> con <span class="text-orange-500"
+        >FireWorks</span
+      >
+    </h1>
+
+    <p class="text-base lg:text-lg">
+      Crea una "Lista de Deseos" con tus fuegos artificiales favoritos y
+      contactanos para confirmar el pedido. Escribenos por <a
+        href="#"
+        class="font-semibold">correo</a
+      > o por <a href="#" class="font-semibold">whatsapp</a>.
+    </p>
+
+    <div class="flex flex-col md:flex-row gap-3 w-full">
+      <ButtonPrimary text="Armar lista" class="w-full">
+        <svg
+          class="size-5 ml-0.5 -mr-2"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          style="fill: currentColor;transform: ;msFilter:;"
+          ><path
+            d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"
+          ></path></svg
+        >
+      </ButtonPrimary>
+      <ButtonSecondary text="Contactanos" />
+    </div>
+  </div>
+  <div class="grid place-content-center">
+    <img class="md:max-h-[360px] rounded-3xl outline outline-white shadow-xl -outline-offset-[12px] aspect-auto" src={fireworksBanner.src} alt="Fuegos artificiales cartoon banner">
+  </div>
+</section>
