@@ -1,65 +1,53 @@
 ---
-import fireworksNavidad from "@components/resources/images/christmas3.webp";
-import fireworksNewyear from "@components/resources/images/newyear3.webp";
+import TimeIcon from "./resources/icons/TimeIcon.astro";
 ---
 
-<div class="flex flex-wrap w-full gap-4 font-poppins">
-  <div
-    class="relative rounded-3xl outline outline-2 outline-white dark:outline-neutral-200 dark:saturate-[0.9] saturate-[1.1] shadow-lg -outline-offset-[9px] w-full bg-black bg-center bg-cover flex items-center justify-center"
-    style=`background-image: url('${fireworksNavidad.src}');`
-  >
+<div class="flex flex-wrap w-full gap-4">
+  <div class="border-b border-neutral-300 w-full p-10 relative">
     <div
-      class="counter text-white flex flex-col w-full gap-2 m-4 *:rounded-xl *:bg-gray-950/20 *:backdrop-blur-[1.5px]"
+      class="absolute top-0 left-0 flex flex-nowrap justify-center w-full gap-1"
     >
-      <div class="flex flex-col items-center py-7 gap-1 counterNavidad">
-        <h4 class="text-xl md:text-2xl xl:text-3xl text-nowrap">
-          TAN SOLO <span class="">FALTAN</span>
-        </h4>
-        <p
-          id="counterNavidad"
-          class="text-3xl xl:text-5xl text-center text-nowrap font-mono font-bold"
-        >
-          0 dias 00:00:00hs
-        </p>
-        <h4 class="text-xl md:text-2xl xl:text-3xl">
-          PARA <span class="">NAVIDAD</span>
-        </h4>
-      </div>
+      <TimeIcon className="text-orange-500" />Solo faltan para <span class="font-semibold text-orange-500">Navidad</span>
+    </div>
+    <div
+      id="counterNavidad"
+      class="grid grid-cols-7 gap-3 justify-items-center font-bold text-6xl font-mono *:flex *:flex-col text-center *:gap-1"
+    >
+      <span>00<span class="text-counter">Días</span></span>:<span
+        >00<span class="text-counter">Horas</span></span
+      >:<span>00<span class="text-counter">Minutos</span></span>:<span
+        >00<span class="text-counter">Segundos</span></span
+      >
     </div>
   </div>
 
-  <div
-    class="relative rounded-3xl outline outline-2 outline-white bg-gradient-to-r from-red-500 to-orange-600 dark:outline-neutral-200 dark:saturate-[0.9] saturate-[1.1] shadow-lg -outline-offset-[9px] w-full bg-black bg-center bg-cover flex items-center justify-center"
-    style=`background-image: url('${fireworksNewyear.src}');`
-  >
+  <div class=" w-full p-10 relative">
     <div
-      class="counter text-white flex flex-col w-full gap-2 m-4 *:rounded-xl *:bg-gray-950/20 *:backdrop-blur-[1.5px]"
+      class="absolute top-0 left-0 flex flex-nowrap justify-center w-full gap-1"
     >
-      <div class="flex flex-col items-center py-7 gap-1 counterAñoNuevo">
-        <h4 class="text-xl md:text-2xl xl:text-3xl text-nowrap">
-          TAN SOLO <span class="">FALTAN</span>
-        </h4>
-        <p
-          id="counterAñoNuevo"
-          class="text-3xl xl:text-5xl text-center text-nowrap font-mono font-bold"
-        >
-          0 dias 00:00:00hs
-        </p>
-        <h4 class="text-xl md:text-2xl xl:text-3xl">
-          PARA <span class="">AÑO NUEVO</span>
-        </h4>
-      </div>
+      <TimeIcon className="text-orange-500" />Solo faltan para <span class="font-semibold text-orange-500">Año Nuevo</span>
+    </div>
+    <div
+      id="counterAñoNuevo"
+      class="grid grid-cols-7 gap-3 justify-items-center font-bold text-6xl font-mono *:flex *:flex-col text-center *:gap-1"
+    >
+      <span>00<span class="text-counter">Días</span></span>:<span
+        >00<span class="text-counter">Horas</span></span
+      >:<span>00<span class="text-counter">Minutos</span></span>:<span
+        >00<span class="text-counter">Segundos</span></span
+      >
     </div>
   </div>
 
-  <style>
-    .counter {
-      text-shadow:
-        1px 1px 0 #00000070,
-        -1px 1px 0 #00000070,
-        -1px -1px 0 #00000070,
-        1px -1px 0 #00000070;
+
+
+  <style is:inline>
+    .text-counter {
+      font-weight: 400;
+      font-family: unset;
+      font-size: large;
     }
+
   </style>
 
   <script>
@@ -98,7 +86,12 @@ import fireworksNewyear from "@components/resources/images/newyear3.webp";
         }
 
         document.getElementById(idElement).innerHTML = `
-          ${days} dias ${hours}:${minutes}:${seconds}hs
+           
+          <span>${days}<span class="text-counter">Días</span></span>:<span
+        >${hours}<span class="text-counter">Horas</span></span
+      >:<span>${minutes}<span class="text-counter">Minutos</span></span>:<span
+        >${seconds}<span class="text-counter">Segundos</span></span
+      >
         `;
       } else {
         document.getElementById(idElement).innerHTML = textEnd;
