@@ -2,6 +2,6 @@
 const {text = "button"} = Astro.props;
 ---
 
-<button title={text} class="group transition inline-flex items-center justify-center w-full md:w-fit text-neutral-800 bg-yellow-50 hover:text-orange-500 dark:text-neutral-200 dark:bg-neutral-500 dark:hover:bg-neutral-600 dark:hover:text-neutral-200 font-semibold px-5 py-2.5 rounded-lg">
+<button title={text} class="group transition inline-flex items-center justify-center w-full md:w-fit text-neutral-800 bg-yellow-50 hover:text-orange-500 dark:text-neutral-200 dark:bg-neutral-500 dark:hover:bg-neutral-600 dark:hover:text-white font-semibold px-5 py-2.5 rounded-lg">
     {text} <span class="group-hover:translate-x-1 transition"><slot /></span>
 </button>

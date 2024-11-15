@@ -5,8 +5,8 @@ import Counter from "./Counter.astro";
 
 ---
 
-<section id="#inicio" class="mt-4 p-2 flex flex-col md:flex-row justify-between md:items-center gap-8 xl:justify-around scroll-m-4">
-  <article class="flex flex-col gap-4 lg:flex-0">
+<section id="#inicio" class="mt-4 p-2 gap-8 scroll-m-4 grid md:grid-cols-2 md:items-center">
+  <article class="flex flex-col gap-4">
     <h1 class="text-4xl sm:text-4xl lg:text-5xl 2xl:text-6xl font-bold text-nowrap">
       Celebra Estas Fiestas <br /> con <span class="text-orange-500"
         >FireWorks</span
@@ -36,7 +36,7 @@ import Counter from "./Counter.astro";
       <ButtonSecondary text="Contactanos" />
     </div>
   </article>
-  <article class="flex flex-grow self-stretch">
+  <article class="flex self-stretch">
     <Counter/>
   </article>
 </section>
