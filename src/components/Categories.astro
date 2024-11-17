@@ -1,0 +1,20 @@
+---
+import Title from '@components/resources/Title.astro';
+import Card from '@components/resources/Card.astro';
+import Fire from '@components/resources/images/fire.png';
+
+const cards = Array.from({ length: 6 });
+---
+
+<section id="categorias" class="py-5 px-2">
+    <Title title="Nuestras categorias" subtitle="Conoce nuestro productos"/>    
+
+    <article class="grid grid-cols-1 items-center justify-center flex-wrap py-5 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        {
+            cards.map(element => {
+                return <Card title="Shows Pirotecnicos" image={Fire.src} href="#"/>
+            })
+        }
+
+    </article>
+</section>
