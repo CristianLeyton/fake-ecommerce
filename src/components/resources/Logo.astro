@@ -1,6 +1,6 @@
 ---
-import logo from '@components/resources/images/logo.webp';
-import logoDark from '@components/resources/images/logo-dark.webp';
+import logo from '/public/src/images/logo.webp';
+import logoDark from '/public/src/images/logo-dark.webp';
 ---
 
 <span class="logoData " data-logo={logo.src} data-logo-dark={logoDark.src}>
@@ -18,11 +18,13 @@ function updateLogoBasedOnTheme() {
   const urlLogo = logoData.getAttribute('data-logo');
   const urlLogoDark = logoData.getAttribute('data-logo-dark');
 
-  if (theme === 'dark') {
+  if (theme == 'dark') {
     logo.setAttribute('src', urlLogoDark);
   } else {
     logo.setAttribute('src', urlLogo);
   }
+
+  console.log('cambio de tema')
 }
 
 // Ejecuta la función cuando se carga la página

@@ -1,0 +1,50 @@
+---
+import XIcon from "./resources/icons/XIcon.astro";
+import FacebookIcon from "./resources/icons/FacebookIcon.astro";
+import InstagramIcon from "./resources/icons/InstagramIcon.astro";
+import WhatsAppIcon from "./resources/icons/WhatsAppIcon.astro";
+import PhoneIcon from "./resources/icons/PhoneIcon.astro";
+const CDL = "{CDL}";
+
+const contact = {
+  x: "#",
+  facebook: "#",
+  instagram: "#",
+  whatsapp: "#",
+  phone: "#",
+};
+---
+
+<footer id="contacto" class="dark:bg-neutral-900 bg-neutral-300 p-6">
+  <div
+    class=" grid md:justify-items-center items-center md:grid-cols-2 gap-7"
+  >
+    <div class="">
+      <h2 class="text-xl lg:text-3xl font-bold mb-4">Contactanos</h2>
+      <p>Direccion: Calle falsa 123</p>
+      <p>Salta, Salta - Argentina</p>
+      <p>CP: 4400</p>
+      <p>Celular: +54 387 123-4567</p>
+      <p class="pt-2 text-pretty font-semibold">
+        ¡Escribinos por redes sociales!
+      </p>
+    </div>
+
+    <div
+      class="flex justify-center gap-8 md:gap-4 flex-nowrap *:bg-orange-500 *:text-white *:inline-block *:p-1 *:rounded *:scale-150 *:md:scale-125"
+    >
+      <a href={contact.x}><XIcon className="" /></a>
+      <a href={contact.x}><FacebookIcon className="" /></a>
+      <a href={contact.x}><InstagramIcon className="" /></a>
+      <a href={contact.x}><WhatsAppIcon className="" /></a>
+      <a href={contact.x}><PhoneIcon className="" /></a>
+    </div>
+  </div>
+
+  <div class="border-t border-white mt-6 pt-4 text-center text-sm w-full">
+    <a href="https://www.cdl.net.ar/" target="_blank"
+      >Desarrollado por <span class="font-iceberg text-base">{CDL}</span> - Fireforks
+      Fake Ecommerce | Ningun derecho reservado</a
+    >
+  </div>
+</footer>
