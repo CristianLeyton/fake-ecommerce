@@ -2,12 +2,14 @@
 import TimeIcon from "./resources/icons/TimeIcon.astro";
 ---
 
-<div class="flex flex-wrap w-full gap-4  justify-center *:xl:max-w-[32rem]">
-  <div class="border-b border-neutral-300 w-full p-10 relative ">
+<div class="flex flex-wrap w-full gap-4 justify-center *:xl:max-w-[32rem]">
+  <div class="border-t sm:border-t-0 border-b border-neutral-300 w-full pt-6 py-8 px-10">
     <div
-      class="absolute top-0 left-0 flex flex-nowrap justify-center w-full gap-1"
+      class="flex flex-nowrap justify-center w-full gap-1 pb-4"
     >
-      <TimeIcon className="text-orange-500" />Solo faltan para <span class="font-semibold text-orange-500">Navidad</span>
+      <TimeIcon className="text-orange-500" />Solo falta para <span
+        class="font-semibold text-orange-500">Navidad</span
+      >
     </div>
     <div
       id="counterNavidad"
@@ -21,11 +23,13 @@ import TimeIcon from "./resources/icons/TimeIcon.astro";
     </div>
   </div>
 
-  <div class=" w-full p-10 relative">
+  <div class="border-b sm:border-b-0 border-neutral-300 w-full pt-4 py-8 px-10">
     <div
-      class="absolute top-0 left-0 flex flex-nowrap justify-center w-full gap-1"
+      class="flex flex-nowrap justify-center w-full gap-1 pb-4"
     >
-      <TimeIcon className="text-orange-500" />Solo faltan para <span class="font-semibold text-orange-500">Año Nuevo</span>
+      <TimeIcon className="text-orange-500" />Solo falta para <span
+        class="font-semibold text-orange-500">Año Nuevo</span
+      >
     </div>
     <div
       id="counterAñoNuevo"
@@ -39,15 +43,12 @@ import TimeIcon from "./resources/icons/TimeIcon.astro";
     </div>
   </div>
 
-
-
   <style is:inline>
     .text-counter {
       font-weight: 400;
       font-family: unset;
       font-size: large;
     }
-
   </style>
 
   <script>
@@ -94,10 +95,9 @@ import TimeIcon from "./resources/icons/TimeIcon.astro";
       >
         `;
       } else {
-        document.getElementById(idElement).innerHTML = textEnd;
-        document.querySelectorAll(`.${idElement} h4`).forEach((element) => {
-          element.classList.add("invisible");
-        });
+        document.getElementById(idElement).innerHTML =
+          `<span></span><span></span><span></span><span class="text-center">${textEnd}</span><span></span><span></span><span></span>`;
+
         clearInterval(countdownInterval); // Detener el contador
       }
     }
