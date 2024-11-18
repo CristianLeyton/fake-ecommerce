@@ -1,52 +1,49 @@
 ---
 import Title from "@components/resources/Title.astro";
-import image from "/public/src/images/fireworksBanner.webp";
 import InfoCard from "./resources/InfoCard.astro";
+import image1 from "/public/src/images/fireworksBanner.webp";
+import image2 from "/public/src/images/christmas.webp";
+import image3 from "/public/src/images/newyear.webp";
 ---
 
-<section id="nosotros" class="py-5 px-2 scroll-m-80 md:scroll-m-20">
+<section id="nosotros" class="pb-5 md:pb-10 px-2 scroll-m-80 md:scroll-m-20">
   <Title title="Nuestra empresa" subtitle="Conocenos un poco mejor" />
 
-  <article class="flex flex-col mt-5">
-    <div class="flex flex-col gap-5 bg-neutral-100 rounded-2xl p-5 pb-24">
+  <article class="flex flex-col mt-5 md:flex-row md:items-center">
+    <div class="flex flex-col gap-5 bg-neutral-100 dark:bg-neutral-900 rounded-2xl p-5 pb-24 md:p-10 md:pr-24">
       <p class="text-2xl font-bold text-pretty">
         En <span class="text-orange-500">FireWorks</span> ofrecemos calidad y variedad
         en pirotecnia insonora.
       </p>
 
-      <div class="flex flex-col gap-3 text-neutral-500">
-        <div id="infoOne" class="active-card info-card">
-          <InfoCard title="Innovación en Pirotecnia">
-            Eleva tus eventos con las soluciones innovadoras de LumiPiro.
-            Descubre un nuevo nivel de impacto visual con nuestra pirotecnia
-            luminosa e insonora, diseñada para deslumbrar sin perturbar el
-            entorno.
+      <div class="flex flex-col gap-3 text-neutral-500 infoOne">
+        <div id="infoOne" class="active-card info-card infoOne">
+          <InfoCard title="Innovación en Pirotecnia" className="infoOne">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi distinctio temporibus corrupti assumenda, hic, sunt eos ipsam dicta repellat ad perspiciatis. Recusandae consequatur quibusdam similique dolor officia quaerat nam ex.
           </InfoCard>
         </div>
 
-        <div id="infoTwo" class="info-card">
-          <InfoCard title="Interfaces Intuitivas">
-            Gestiona tus espectáculos con facilidad utilizando nuestras
-            plataformas intuitivas. Controla cada detalle de tu presentación de
-            manera eficiente gracias a herramientas diseñadas para un manejo
-            rápido y sencillo.
+        <div id="infoTwo" class="info-card infoTwo">
+          <InfoCard title="La seguridad ante todo" className="infoTwo">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore, temporibus quod. Impedit iste quod a, ratione dolores vero nobis eius possimus debitis suscipit. Ducimus nostrum explicabo aspernatur velit deleniti? Vitae?
           </InfoCard>
         </div>
 
-        <div id="infoThree" class="info-card">
-          <InfoCard title="Características Avanzadas">
-            Reduce la complejidad y potencia tu creatividad. Las características
-            avanzadas de LumiPiro optimizan cada aspecto de la planificación y
-            ejecución, garantizando resultados que destacan por su calidad y
-            seguridad.
+        <div id="infoThree" class="info-card infoThree">
+          <InfoCard title="Con más de 20 años de experiencia" className="infoThree">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eos dolore consequuntur dolorum beatae quasi recusandae, hic tempora, ipsa ea assumenda sunt nisi. Ipsa, eum illo quaerat quod voluptate amet nam!
           </InfoCard>
         </div>
       </div>
     </div>
 
     <div
-      class="aspect-video m-5 bg-center bg-cover rounded-xl -mt-20"
-      style=`background-image: url('${image.src}')`
+      id="image-info"
+      data-image-1={image1.src}
+      data-image-2={image2.src}
+      data-image-3={image3.src}
+      class="aspect-video md:aspect-auto m-5 bg-center bg-cover rounded-xl -mt-20 md:min-h-[28rem] md:-ml-16 md:mt-0 md:w-full"
+      style=`background-image: url('${image1.src}')`
       title="La empresa"
     >
     </div>
@@ -67,20 +64,34 @@ import InfoCard from "./resources/InfoCard.astro";
   .active-card h4 {
     color: #f9781f;
   }
+
+    html.dark .active-card button {
+    background-color: #262626;
+  }
+
 </style>
 
 <script is:inline>
   document.addEventListener("astro:page-load", () => {
     const cards = document.querySelectorAll(".info-card");
+    const imageInfo = document.querySelector('#image-info')
+    const image1 = imageInfo.getAttribute('data-image-1');
+    const image2 = imageInfo.getAttribute('data-image-2');
+    const image3 = imageInfo.getAttribute('data-image-3');
+
 
     cards.forEach((card) => {
-      card.addEventListener("click", () => {
+      card.addEventListener("click", (e) => {
         cards.forEach((card) => {
           card.classList.remove("active-card");
         });
         card.classList.add("active-card");
+
+        if(e.target.classList.contains('infoOne')) imageInfo.style = `background-image: url('${image1}')`;
+        if(e.target.classList.contains('infoTwo')) imageInfo.style = `background-image: url('${image2}')`;
+        if(e.target.classList.contains('infoThree')) imageInfo.style = `background-image: url('${image3}')`;
+
       });
-      console.log("cambio de tema");
     });
   });
 </script>
