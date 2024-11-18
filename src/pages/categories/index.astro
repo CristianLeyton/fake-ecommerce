@@ -1,0 +1,23 @@
+---
+import HeartIcon from "@components/resources/icons/HeartIcon.astro";
+import InfoIcon from "@components/resources/icons/InfoIcon.astro";
+import ProductCard from "@components/resources/ProductCard.astro";
+import Products from "@layouts/LayoutProducts.astro";
+
+import { getAllProducts } from "@lib/get-products";
+const allProducts = await getAllProducts();
+---
+
+<Products>
+  {
+    allProducts.map((product) => {
+      const { name, description, image, price } = product;
+      console.log(product);
+      return (
+        <ProductCard title={name} image={image.url} price={price}>
+          {description}
+        </ProductCard>
+      );
+    })
+  }
+</Products>

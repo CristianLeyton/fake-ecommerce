@@ -1,0 +1,79 @@
+---
+import ArrowR from "@components/resources/icons/ArrowRIcon.astro";
+import Layout from "./Layout.astro";
+import {getCategories} from '@lib/get-categories'
+import HeartIcon from "@components/resources/icons/HeartIcon.astro";
+import InfoIcon from "@components/resources/icons/InfoIcon.astro";
+import ArrowRIcon from "@components/resources/icons/ArrowRIcon.astro";
+const allCategories = await getCategories();
+const { title = 'Todos los productos' } = Astro.props;
+
+---
+
+<Layout title="Productos | FireWorks">
+<section class="grid md:grid-cols-3 gap-6 p-2 mb-4">
+    <article id="categoriesNav" class="h-16 md:h-fit overflow-hidden bg-yellow-50 dark:bg-neutral-700 px-6 py-4 rounded-lg flex flex-col gap-2 shadow">
+        <button id="showcategoriesNav" class="font-bold text-xl flex items-center justify-between">Categorias: <span id="arrowMenuNav" class="rotate-90 transition text-orange-500 inline-block"> <ArrowRIcon className="size-8 md:rotate-180"/> </span></button>
+            <div class="flex flex-col mt-1 gap-1 *:inline-flex *:items-center *:gap-1 ">
+                <a href="/categories"><span class="text-orange-500"><ArrowR/></span> Todos los productos </a>
+                {allCategories.map((categorie) => {
+                return <a href=`/categories/${categorie.id_categorie}`><span class="text-orange-500"><ArrowR/></span> {categorie.name}</a>
+                })}
+            </div>
+    </article>
+    <article class="md:col-span-2 gap-4 grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+        <h5 class="col-span-full w-full text-pretty p-4 text-sm bg-yellow-50 dark:bg-neutral-700 rounded-lg flex justify-between items-center gap-4 shadow">
+            <p>
+              Agrega cualquier producto a tu lista de deseos dando un click en el <HeartIcon
+                className="text-orange-500 inline-block size-4 mb-1"
+              />. <br /> Despues podes editar cantidades, antes de enviarnosla, en la <a
+                href="#"
+                class="text-orange-500">lista de deseos.</a
+              >
+            </p>
+            <InfoIcon className="text-orange-500 size-7" />
+          </h5>
+        <h2 class="col-span-full font-bold text-xl w-full">{title}</h2>
+        <slot/>
+    </article>
+</section>
+</Layout>
+
+<style>
+    :root {
+  interpolate-size: allow-keywords;
+}
+    #categoriesNav {
+        transition: height 0.3s ease-out;
+    }
+</style>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+    const categoriesNav = document.querySelector("#categoriesNav");
+    const arrowMenuNav = document.querySelector('#arrowMenuNav')
+
+    document.querySelector('#showcategoriesNav').addEventListener('click', (event)=> {
+        categoriesNav.classList.toggle('h-16');
+        categoriesNav.classList.toggle('md:h-16');
+        categoriesNav.classList.toggle('md:h-fit');
+        arrowMenuNav.classList.toggle('-rotate-90');
+        arrowMenuNav.classList.toggle('rotate-90');
+        
+        // Evitar que el click en el botón cierre el menú inmediatamente
+        event.stopPropagation();
+
+        // Escuchar clics en cualquier lugar del documento
+        document.addEventListener("click", (event) => {
+        // Verificar si el clic fue fuera del submenú y del botón
+        if (
+            //@ts-ignore
+/*             !categoriesNav.contains(event.target) && */ //Este no cierra el menu cuando doy click en algun item del mismo
+            event.target !== categoriesNav //Este si cierra el menu cuando clickeo algun elemento de dentro del menu, o fuera
+        ) {
+            categoriesNav.classList.add('h-fit');
+        }
+        });
+    })
+});
+</script>

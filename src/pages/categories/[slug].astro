@@ -1,0 +1,26 @@
+---
+import { getCategories } from "@lib/get-categories";
+import Products from "@layouts/LayoutProducts.astro";
+
+// Obtener los datos para las rutas dinámicas
+export async function getStaticPaths() {
+  const categories = await getCategories();
+
+  return categories.map((categorie) => ({
+    params: { slug: categorie.id_categorie.toString() },
+  }));
+}
+
+// Obtener el parámetro dinámico
+const { slug } = Astro.params;
+
+// Lógica para obtener la información específica de la categoría
+const category = await getCategories().then((categories) =>
+  categories.find((c) => c.id_categorie.toString() === slug)
+);
+---
+
+<Products title={category.name}>
+  <h1>{category.name}</h1>
+  <p>{category.description}</p>
+</Products>

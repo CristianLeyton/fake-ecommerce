@@ -1,21 +1,19 @@
 ---
 import Title from '@components/resources/Title.astro';
 import Card from '@components/resources/Card.astro';
-import Fire from '/public/src/images/fire.png';
+import {getCategories} from '@lib/get-categories'
 
-const cards = Array.from({ length: 6 });
+const allCategories = await getCategories();
 ---
+
 
 <section id="categorias" class="py-5 px-2 scroll-m-80 md:scroll-m-20">
     <Title title="Nuestras categorias" subtitle="Conoce nuestro productos"/>    
 
     <article class="parent grid grid-cols-1 items-center justify-center flex-wrap py-5 gap-5 md:grid-cols-2">
-        {
-            cards.map((currElement, index) => {
-                return <Card title=`Categoria número ${index + 1}` image={Fire.src} href="#"/>
-            })
-        }
-
+        {allCategories.map((categorie) => {
+          return <Card title={categorie.name} image={categorie.image.url} href={categorie.id_categorie}/>
+        })}
     </article>
 </section>
 

@@ -1,0 +1,2 @@
+GET http://localhost:1337/api/products?fields[0]=name&fields[1]=description&fields[2]=id_product&fields[3]=price&populate[image][fields][1]=url
+Authorization: Bearer 854248c2a5c2682772b6ac6e5a1c7277de250dc1b83edb1d20007c3cf9bcd362d4996b04fb0b53103104e820d341c1e432c9a23f251c8869a49e4a6defeb6967d25d6693a38633bbfbccbc19457dbc471192d11cb3e4c68f5f474605baf6a94405d7ee637082780a160d0867eb8bf6a77d2742b5e7b18d0b2a4aa79974dbe0d9

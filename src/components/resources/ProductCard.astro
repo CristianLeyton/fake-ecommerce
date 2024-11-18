@@ -1,0 +1,16 @@
+---
+const {title, image, price} = Astro.props
+import HeartIcon from '@icons/HeartIcon.astro'
+---
+
+<article title={title} class="bg-yellow-50 dark:bg-neutral-700 rounded-lg py-4 px-4 flex flex-col gap-1 items-center shadow">
+    <h3 class="font-semibold text-ellipsis line-clamp-1 text-nowrap text-lg self-start">{title}</h3>
+    <img class="w-full aspect-square max-w-32 dark:bg-neutral-200 rounded-lg" src={image} alt={title}>
+    <p class="descripcion text-sm text-pretty text-ellipsis line-clamp-4">
+        <slot/>
+    </p>
+    <footer class="flex w-full justify-between pt-1">
+        <span class="precio font-bold text-lg">${price}</span>
+        <button id="BtnAddToWishList" title="Agregar a la lista de deseos" class="bg-orange-500 text-yellow-50 p-1 rounded hover:-translate-y-0.5 transition"> <HeartIcon/> </button>
+    </footer>
+</article>
