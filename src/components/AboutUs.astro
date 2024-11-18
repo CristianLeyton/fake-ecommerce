@@ -1,0 +1,86 @@
+---
+import Title from "@components/resources/Title.astro";
+import image from "/public/src/images/fireworksBanner.webp";
+import InfoCard from "./resources/InfoCard.astro";
+---
+
+<section id="nosotros" class="py-5 px-2 scroll-m-80 md:scroll-m-20">
+  <Title title="Nuestra empresa" subtitle="Conocenos un poco mejor" />
+
+  <article class="flex flex-col mt-5">
+    <div class="flex flex-col gap-5 bg-neutral-100 rounded-2xl p-5 pb-24">
+      <p class="text-2xl font-bold text-pretty">
+        En <span class="text-orange-500">FireWorks</span> ofrecemos calidad y variedad
+        en pirotecnia insonora.
+      </p>
+
+      <div class="flex flex-col gap-3 text-neutral-500">
+        <div id="infoOne" class="active-card info-card">
+          <InfoCard title="Innovación en Pirotecnia">
+            Eleva tus eventos con las soluciones innovadoras de LumiPiro.
+            Descubre un nuevo nivel de impacto visual con nuestra pirotecnia
+            luminosa e insonora, diseñada para deslumbrar sin perturbar el
+            entorno.
+          </InfoCard>
+        </div>
+
+        <div id="infoTwo" class="info-card">
+          <InfoCard title="Interfaces Intuitivas">
+            Gestiona tus espectáculos con facilidad utilizando nuestras
+            plataformas intuitivas. Controla cada detalle de tu presentación de
+            manera eficiente gracias a herramientas diseñadas para un manejo
+            rápido y sencillo.
+          </InfoCard>
+        </div>
+
+        <div id="infoThree" class="info-card">
+          <InfoCard title="Características Avanzadas">
+            Reduce la complejidad y potencia tu creatividad. Las características
+            avanzadas de LumiPiro optimizan cada aspecto de la planificación y
+            ejecución, garantizando resultados que destacan por su calidad y
+            seguridad.
+          </InfoCard>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="aspect-video m-5 bg-center bg-cover rounded-xl -mt-20"
+      style=`background-image: url('${image.src}')`
+      title="La empresa"
+    >
+    </div>
+  </article>
+</section>
+
+<style is:inline>
+  .active-card button {
+    background-color: #fafafa;
+    border-radius: 0.75rem;
+    --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color),
+      0 1px 2px -1px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+
+  .active-card h4 {
+    color: #f9781f;
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener("astro:page-load", () => {
+    const cards = document.querySelectorAll(".info-card");
+
+    cards.forEach((card) => {
+      card.addEventListener("click", () => {
+        cards.forEach((card) => {
+          card.classList.remove("active-card");
+        });
+        card.classList.add("active-card");
+      });
+      console.log("cambio de tema");
+    });
+  });
+</script>

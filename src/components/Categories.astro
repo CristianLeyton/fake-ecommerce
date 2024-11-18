@@ -3,18 +3,30 @@ import Title from '@components/resources/Title.astro';
 import Card from '@components/resources/Card.astro';
 import Fire from '/public/src/images/fire.png';
 
-const cards = Array.from({ length: 4 });
+const cards = Array.from({ length: 6 });
 ---
 
-<section id="categorias" class="py-5 px-2 scroll-m-20">
+<section id="categorias" class="py-5 px-2 scroll-m-80 md:scroll-m-20">
     <Title title="Nuestras categorias" subtitle="Conoce nuestro productos"/>    
 
-    <article class="grid grid-cols-1 items-center justify-center flex-wrap py-5 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+    <article class="parent grid grid-cols-1 items-center justify-center flex-wrap py-5 gap-5 md:grid-cols-2">
         {
-            cards.map(element => {
-                return <Card title="Shows Pirotecnicos" image={Fire.src} href="#"/>
+            cards.map((currElement, index) => {
+                return <Card title=`Categoria número ${index + 1}` image={Fire.src} href="#"/>
             })
         }
 
     </article>
 </section>
+
+<script>
+  const parent = document.querySelector(".parent");
+  const childrenCount = parent.children.length;
+
+  if (childrenCount % 3 === 0) {
+    parent.classList.add("lg:grid-cols-3");
+  } else {
+    parent.classList.add("lg:grid-cols-2"); // Clase por defecto
+    parent.classList.add('2xl:grid-cols-4');
+  }
+</script>

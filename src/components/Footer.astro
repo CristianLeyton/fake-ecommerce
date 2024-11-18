@@ -4,6 +4,7 @@ import FacebookIcon from "./resources/icons/FacebookIcon.astro";
 import InstagramIcon from "./resources/icons/InstagramIcon.astro";
 import WhatsAppIcon from "./resources/icons/WhatsAppIcon.astro";
 import PhoneIcon from "./resources/icons/PhoneIcon.astro";
+import MapPinIcon from "./resources/icons/MapPinIcon.astro";
 const CDL = "{CDL}";
 
 const contact = {
@@ -12,6 +13,7 @@ const contact = {
   instagram: "#",
   whatsapp: "#",
   phone: "#",
+  ubicacion: "#"
 };
 ---
 
@@ -21,29 +23,29 @@ const contact = {
   >
     <div class="">
       <h2 class="text-xl lg:text-3xl font-bold mb-4">Contactanos</h2>
-      <p>Direccion: Calle falsa 123</p>
+      <a href={contact.ubicacion} target="_blank" title="Ver en GoogleMaps" class="flex gap-1 items-center hover:text-orange-500 group">Direccion: Calle falsa 123 <MapPinIcon className="text-orange-500 group-hover:-translate-y-0.5 transition"/></a>
       <p>Salta, Salta - Argentina</p>
       <p>CP: 4400</p>
-      <p>Celular: +54 387 123-4567</p>
+      <a href={contact.phone} target="_blank" title="Llamar" class="hover:text-orange-500">Celular: +54 387 123-4567</a>
       <p class="pt-2 text-pretty font-semibold">
         ¡Escribinos por redes sociales!
       </p>
     </div>
 
     <div
-      class="flex justify-center gap-8 md:gap-4 flex-nowrap *:bg-orange-500 *:text-white *:inline-block *:p-1 *:rounded *:scale-150 *:md:scale-125"
+      class="flex justify-center gap-8 md:gap-4 flex-nowrap *:bg-orange-500 *:text-white *:inline-block *:p-1 *:rounded *:scale-150 *:md:scale-125 *:transition"
     >
-      <a href={contact.x}><XIcon className="" /></a>
-      <a href={contact.x}><FacebookIcon className="" /></a>
-      <a href={contact.x}><InstagramIcon className="" /></a>
-      <a href={contact.x}><WhatsAppIcon className="" /></a>
-      <a href={contact.x}><PhoneIcon className="" /></a>
+      <a href={contact.x} class="hover:-translate-y-0.5" title="Cuenta de X"><XIcon className="" /></a>
+      <a href={contact.facebook} class="hover:-translate-y-0.5" title="Cuenta de facebook"><FacebookIcon className="" /></a>
+      <a href={contact.instagram} class="hover:-translate-y-0.5" title="Cuenta de Instagram"><InstagramIcon className="" /></a>
+      <a href={contact.whatsapp} class="hover:-translate-y-0.5" title="Enviar WhatsApp"><WhatsAppIcon className="" /></a>
+      <a href={contact.phone} class="hover:-translate-y-0.5" title="Llamar"><PhoneIcon className="" /></a>
     </div>
   </div>
 
-  <div class="border-t border-white mt-6 pt-4 text-center text-sm w-full">
+  <div class="border-t border-neutral-400 mt-6 pt-4 text-center text-sm w-full">
     <a href="https://www.cdl.net.ar/" target="_blank"
-      >Desarrollado por <span class="font-iceberg text-base">{CDL}</span> - Fireforks
+      >Desarrollado por <span class="font-iceberg text-base">{CDL}</span> <br class="block md:hidden"> <span class="hidden md:inline-block">-</span> Fireforks
       Fake Ecommerce | Ningun derecho reservado</a
     >
   </div>
