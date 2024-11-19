@@ -33,7 +33,7 @@ const { title = 'Todos los productos' } = Astro.props;
             </p>
             <InfoIcon className="text-orange-500 size-7" />
           </h5>
-        <h2 class="col-span-full font-bold text-xl w-full ">{title}</h2>
+        <h2 class="col-span-full font-bold text-xl w-full">{title}</h2>
         <slot/>
     </article>
 </section>
@@ -49,31 +49,22 @@ const { title = 'Todos los productos' } = Astro.props;
 </style>
 
 <script>
-    document.addEventListener('astro:page-load', () => {
-    const categoriesNav = document.querySelector("#categoriesNav");
-    const arrowMenuNav = document.querySelector('#arrowMenuNav')
 
-    document.querySelector('#showcategoriesNav').addEventListener('click', (event)=> {
+function closeMenuCategorias() {
+    const categoriesNav = document.querySelector("#categoriesNav");
+    const arrowMenuNav = document.querySelector('#arrowMenuNav');
+
+    document.querySelector('#showcategoriesNav').addEventListener('click', (e)=> {
         categoriesNav.classList.toggle('h-16');
         categoriesNav.classList.toggle('md:h-16');
         categoriesNav.classList.toggle('md:h-fit');
         arrowMenuNav.classList.toggle('-rotate-90');
         arrowMenuNav.classList.toggle('rotate-90');
-        
-        // Evitar que el click en el botón cierre el menú inmediatamente
-        event.stopPropagation();
-
-        // Escuchar clics en cualquier lugar del documento
-        document.addEventListener("click", (event) => {
-        // Verificar si el clic fue fuera del submenú y del botón
-        if (
-            //@ts-ignore
-/*             !categoriesNav.contains(event.target) && */ //Este no cierra el menu cuando doy click en algun item del mismo
-            event.target !== categoriesNav //Este si cierra el menu cuando clickeo algun elemento de dentro del menu, o fuera
-        ) {
-            categoriesNav.classList.add('h-fit');
-        }
-        });
     })
-});
+}
+
+// Ejecuta la función cuando se carga la página
+document.addEventListener('astro:page-load', closeMenuCategorias);
+
+
 </script>
