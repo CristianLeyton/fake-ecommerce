@@ -12,7 +12,10 @@ const allCategories = await getCategories();
 
     <article class="parent grid grid-cols-1 items-center justify-center flex-wrap py-5 gap-5 md:grid-cols-2">
         {allCategories.map((categorie) => {
-          return <Card title={categorie.name} image={categorie.image.url} href={categorie.id_categorie}/>
+          const url = "/categories/"+ categorie.id_categorie;
+
+
+          return <Card title={categorie.name} image={categorie.image.url} href={url}/>
         })}
     </article>
 </section>
