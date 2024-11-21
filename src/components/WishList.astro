@@ -1,0 +1,34 @@
+---
+import DeleteIcon from "./resources/icons/DeleteIcon.astro";
+import WishItemCard from "./resources/WishItemCard.astro";
+import Fire from "public/src/images/fire.png";
+---
+
+<header class="flex items-center w-full justify-between border-b dark:border-neutral-600 pb-2">
+  <h3 class="font-bold">Editar lista</h3>
+  <button
+    title="Eliminar todo"
+    class="bg-red-500 text-white inline-flex items-center font-semibold text-sm gap-1 px-3 py-1.5 rounded transition hover:-translate-y-0.5"
+    >Vaciar lista <DeleteIcon className="inline-block" /></button
+  >
+</header>
+<main>
+  <WishItemCard
+    image={Fire.src}
+    name="Nombre del producto"
+    quantity="1"
+    price="1500"
+  />
+  <WishItemCard
+    image={Fire.src}
+    name="Nombre del producto"
+    quantity="1"
+    price="1500"
+  />
+  <WishItemCard
+    image={Fire.src}
+    name="Nombre del producto"
+    quantity="1"
+    price="1500"
+  />
+</main>

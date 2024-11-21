@@ -1,18 +1,94 @@
 ---
-const {title, image, price} = Astro.props
-import HeartIcon from '@icons/HeartIcon.astro'
+const { title, image, price } = Astro.props;
+import HeartIcon from "@icons/HeartIcon.astro";
 ---
 
-<article title={title} class="bg-yellow-50 dark:bg-neutral-700 rounded-lg py-4 px-4 flex flex-col gap-1 items-center shadow">
-    <header class="font-semibold text-ellipsis line-clamp-1 text-nowrap text-lg self-start">{title}</header>
-    <main class="flex md:flex-col items-center gap-3 md:gap-1">
-        <img class="w-full aspect-square max-w-32 dark:bg-neutral-200 rounded-lg" src={image} alt={title}>
-        <p class="p-1 md:p-0 text-sm text-pretty text-ellipsis line-clamp-5 md:line-clamp-4">
-            <slot/>
-        </p>
-    </main>
-    <footer class="flex w-full justify-between pt-1">
-        <span class="precio font-bold text-lg">${price}</span>
-        <button id="BtnAddToWishList" title="Agregar a la lista de deseos" class="bg-orange-500 text-yellow-50 p-1 rounded hover:-translate-y-0.5 transition"> <HeartIcon/> </button>
-    </footer>
+<article
+  title={title}
+  data-image={image}
+  data-price={price}
+  class="productCard bg-yellow-50 dark:bg-neutral-700 rounded-lg py-4 px-4 flex flex-col gap-1 items-center shadow"
+>
+  <header
+    class="font-semibold text-ellipsis line-clamp-1 text-nowrap text-lg self-start"
+  >
+    {title}
+  </header>
+  <main class="flex md:flex-col items-center gap-3 md:gap-1">
+    <img
+      class="w-full aspect-square max-w-32 dark:bg-neutral-200 rounded-lg"
+      src={image}
+      alt={title}
+    />
+    <p
+      class="p-1 md:p-0 text-sm text-pretty text-ellipsis line-clamp-5 md:line-clamp-4"
+    >
+      <slot />
+    </p>
+  </main>
+  <footer class="flex w-full justify-between pt-1">
+    <span class="precio font-bold text-lg">${price}</span>
+    <button
+      title="Agregar a la lista de deseos"
+      class="btnAddToWishList bg-orange-500 text-yellow-50 p-1 rounded hover:-translate-y-0.5 transition"
+    >
+      <HeartIcon />
+    </button>
+  </footer>
 </article>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const buttons = document.querySelectorAll(".btnAddToWishList");
+    const localWishList = getWishList();
+
+    function getWishList() {
+      //Si es la primera vez y no existe la lista de deseos, la creo
+      let WishList = JSON.parse(localStorage.getItem("wishList"));
+      if (WishList == null) {
+        localStorage.setItem("wishList", "[]");
+      } //Comprueba si ya existe o no, y la crea
+      WishList = JSON.parse(localStorage.getItem("wishList"));
+      return WishList;
+    }
+
+    //console.log(localWishList);
+
+    //Funcion para agregar un producto a la lista
+    function setWishList() {
+      localStorage.setItem("wishList", JSON.stringify(localWishList));
+    }
+
+    // Agregar al hacer click ene l button
+    buttons.forEach((heartButton) => {
+      heartButton.addEventListener("click", (e) => {
+        //@ts-ignore
+        const card = e.target.closest(".productCard");
+
+        let item = {
+          title: card.getAttribute("title"),
+          image: card.getAttribute("data-image"),
+          price: card.getAttribute("data-price"),
+          quantity: 1,
+        };
+
+        const existItem = localWishList.find(
+          (itemList) => itemList.title == item.title
+        ); //busca si ya existe algun item con el mismo nombre en la lista de deseos
+
+        if (existItem) {
+            existItem.quantity++;
+          //console.log("Aumentada la cantidad de " + item.title);
+          window.dispatchEvent(new CustomEvent("user:addedProduct", {  detail: 'Se agregó uno más a la lista' }));
+        } else {
+          localWishList.push(item);
+          //console.log("Añadido " + item.title);
+          window.dispatchEvent(new CustomEvent("user:addedProduct", {  detail: 'Producto añadido a la lista' }));
+        }
+
+        setWishList();
+        // Enviar el evento a nivel de `window`
+      });
+    });
+  });
+</script>

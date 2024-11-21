@@ -1,0 +1,95 @@
+---
+import CopyIcon from "./resources/icons/CopyIcon.astro";
+import EmailIcon from "./resources/icons/EmailIcon.astro";
+import WhatsAppIcon from "./resources/icons/WhatsAppIcon.astro";
+---
+
+<header
+  class="flex w-full justify-between border-b pb-2 dark:border-neutral-600"
+>
+  <h3 class="font-bold">Enviar lista</h3>
+
+  <div class="flex items-center *:rounded text-white gap-2">
+    <button
+      class="p-1 hover:-translate-y-0.5 transition bg-orange-500"
+      title="Copiar"><CopyIcon /></button
+    >
+    <button
+      class="p-1 hover:-translate-y-0.5 transition bg-blue-500"
+      title="Enviar por Mail"><EmailIcon /></button
+    >
+    <button
+      class="p-1 hover:-translate-y-0.5 transition bg-green-500"
+      title="Enviar por WhatsApp"><WhatsAppIcon /></button
+    >
+  </div>
+</header>
+
+<div
+  class="w-full text-left grid grid-cols-5 font-semibold text-base md:text-sm xl:text-base"
+>
+  <span class="text-ellipsis overflow-hidden text-center">
+    <span class="hidden xl:inline-block">Cantidad</span>
+    <span class="inline-block xl:hidden">Cant.</span>
+  </span>
+  <span class="col-span-3"> Nombre </span>
+  <span class="text-right"> Precio </span>
+</div>
+
+<div
+  id="sendWishList"
+  class="w-full text-left grid grid-cols-5 text-base md:text-sm xl:text-base"
+>
+</div>
+
+<div
+  class="border-t dark:border-neutral-600 flex justify-between w-full mt-1 pt-2 font-bold"
+>
+  <h3 class="">Total:</h3>
+  <span class="">$2000</span>
+</div>
+
+<script is:inline>
+  document.addEventListener("astro:page-load", () => {
+    const localWishList = getWishList();
+    const sendWishList = document.querySelector("#sendWishList");
+
+    function getWishList() {
+      //Si es la primera vez y no existe la lista de deseos, la creo
+      let WishList = JSON.parse(localStorage.getItem("wishList"));
+      if (WishList == null) {
+        localStorage.setItem("wishList", "[]");
+      } //Comprueba si ya existe o no, y la crea
+      WishList = JSON.parse(localStorage.getItem("wishList"));
+      return WishList;
+    }
+
+    if (sendWishList) {
+      if (localWishList[0] == null) {
+        sendWishList.innerHTML = `<span class='col-span-full text-center'>¡La lista está vacia!</span>`;
+      } else {
+
+        sendWishList.innerHTML = '' //Reseteo la lista
+
+        localWishList.forEach(item => {
+            let cant = document.createElement('span');
+            cant.classList.add('text-center');
+            cant.textContent = item.quantity;
+
+            let name = document.createElement('span');
+            name.classList.add('text-left');
+            name.classList.add('col-span-3');
+            name.textContent = item.title;
+
+            let price = document.createElement('span');
+            price.classList.add('text-right');
+            price.textContent = item.price;
+
+            sendWishList.insertAdjacentElement('beforeend', cant);
+            sendWishList.insertAdjacentElement('beforeend', name);
+            sendWishList.insertAdjacentElement('beforeend', price);
+        });
+      }
+    }
+  });
+</script>

@@ -12,7 +12,7 @@ import WishListIcon from './resources/icons/WishListIcon.astro';
     <div class="flex items-start w-full md:w-auto md:items-center gap-2">
         <div class="buttons flex items-center order-1 relative -top-[50px] md:top-0 gap-3 md:gap-2" >
             <button title="Cambiar tema"><SetTheme /></button>
-            <a href="/wishlist" title="Lista de deseos"> <WishListIcon/> </a>
+            <a href="/wishlist" title="Lista de deseos" class="relative"> <WishListIcon/> <span class="absolute min-w-4 h-4 -top-0.5 -right-0.5 text-center bg-orange-400 rounded-full text-white text-[0.6rem] grid place-content-center" id="counterList">0</span> </a>
             <button title="Menú" id="menu-icon"><HamburguerIcon /></button>
         </div>
 
@@ -39,6 +39,17 @@ import WishListIcon from './resources/icons/WishListIcon.astro';
 <script>
     document.addEventListener('astro:page-load', () => {
     const headerElement = document.querySelector("#header");
+    const counterList = document.querySelector("#counterList")
+
+    setCounterList()
+
+    function setCounterList() {
+        const wishList = JSON.parse(localStorage.getItem("wishList"));
+        if (wishList) {
+            counterList.textContent = wishList.length;   
+        }
+    }
+    window.addEventListener("user:addedProduct", setCounterList);
 
     document.querySelector('#menu-icon').addEventListener('click', (event)=> {
         headerElement.classList.toggle('h-[70px]');

@@ -3,10 +3,10 @@ import TimeIcon from "./resources/icons/TimeIcon.astro";
 ---
 
 <div class="flex flex-wrap w-full gap-4 justify-center *:xl:max-w-[32rem]">
-  <div class="border-t sm:border-t-0 border-b border-neutral-300 w-full pt-6 py-8 px-10">
-    <div
-      class="flex flex-nowrap justify-center w-full gap-1 pb-4"
-    >
+  <div
+    class="border-t sm:border-t-0 border-b border-neutral-300 w-full pt-6 py-8 px-10"
+  >
+    <div class="flex flex-nowrap justify-center w-full gap-1 pb-4">
       <TimeIcon className="text-orange-500" />Solo falta para <span
         class="font-semibold text-orange-500">Navidad</span
       >
@@ -24,9 +24,7 @@ import TimeIcon from "./resources/icons/TimeIcon.astro";
   </div>
 
   <div class="border-b sm:border-b-0 border-neutral-300 w-full pt-4 py-8 px-10">
-    <div
-      class="flex flex-nowrap justify-center w-full gap-1 pb-4"
-    >
+    <div class="flex flex-nowrap justify-center w-full gap-1 pb-4">
       <TimeIcon className="text-orange-500" />Solo falta para <span
         class="font-semibold text-orange-500">Año Nuevo</span
       >
@@ -63,42 +61,43 @@ import TimeIcon from "./resources/icons/TimeIcon.astro";
       const now = new Date().getTime();
       const timeLeft = targetDate - now;
 
-      if (timeLeft > 0) {
-        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-        let hours = Math.floor(
-          (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      if (document.getElementById(idElement)) {
+        if (timeLeft > 0) {
+          const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+          let hours = Math.floor(
+            (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        if (hours < 10) {
-          //@ts-ignore
-          hours = "0" + hours;
-        }
+          if (hours < 10) {
+            //@ts-ignore
+            hours = "0" + hours;
+          }
 
-        if (seconds < 10) {
-          //@ts-ignore
-          seconds = "0" + seconds;
-        }
+          if (seconds < 10) {
+            //@ts-ignore
+            seconds = "0" + seconds;
+          }
 
-        if (minutes < 10) {
-          //@ts-ignore
-          minutes = "0" + minutes;
-        }
+          if (minutes < 10) {
+            //@ts-ignore
+            minutes = "0" + minutes;
+          }
 
-        document.getElementById(idElement).innerHTML = `
-           
+          document.getElementById(idElement).innerHTML = `
           <span>${days}<span class="text-counter">Días</span></span>:<span
         >${hours}<span class="text-counter">Horas</span></span
       >:<span>${minutes}<span class="text-counter">Minutos</span></span>:<span
         >${seconds}<span class="text-counter">Segundos</span></span
       >
         `;
-      } else {
-        document.getElementById(idElement).innerHTML =
-          `<span></span><span></span><span></span><span class="text-center">${textEnd}</span><span></span><span></span><span></span>`;
+        } else {
+          document.getElementById(idElement).innerHTML =
+            `<span></span><span></span><span></span><span class="text-center">${textEnd}</span><span></span><span></span><span></span>`;
 
-        clearInterval(countdownInterval); // Detener el contador
+          clearInterval(countdownInterval); // Detener el contador
+        }
       }
     }
 

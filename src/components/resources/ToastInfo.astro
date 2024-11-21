@@ -1,0 +1,61 @@
+---
+
+---
+
+<a href="/wishlist"
+  id="containerToasts"
+  class="toasts cursor-pointer gap-2 fixed bottom-4 text-white right-4 *:w-fit *:bg-orange-400 opacity-90 font-semibold text-sm *:rounded-lg flex flex-col items-end"
+>
+</a>
+
+<style is:inline>
+  .toast {
+    animation: appearToast 0.3s ease-out;
+  }
+
+  .toast-leave {
+    animation: disappearToast 0.2s ease-out;
+  }
+
+  @keyframes appearToast {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+
+  @keyframes disappearToast {
+    0% {
+        opacity: 0.9;
+      /* transform: translateX(0%); */
+    }
+    100% {
+      /* transform: translateX(100%); */
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  window.addEventListener("user:addedProduct", (e) => {
+    const containerToasts = document.querySelector("#containerToasts");
+    //@ts-ignore
+    let message = e.detail;
+
+    let toast = document.createElement("span");
+    toast.classList.add("toast", "px-4", "py-2");
+    toast.textContent = message;
+
+    containerToasts.appendChild(toast);
+
+    // Animar salida antes de eliminar
+    setTimeout(() => {
+      toast.classList.add("toast-leave");
+      toast.addEventListener("animationend", () => {
+        toast.remove();
+      });
+    }, 3000); // Duración antes de iniciar la salida
+  });
+</script>

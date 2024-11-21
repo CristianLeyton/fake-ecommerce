@@ -4,6 +4,7 @@ import FacebookIcon from "./resources/icons/FacebookIcon.astro";
 import InstagramIcon from "./resources/icons/InstagramIcon.astro";
 import WhatsAppIcon from "./resources/icons/WhatsAppIcon.astro";
 import PhoneIcon from "./resources/icons/PhoneIcon.astro";
+import EmailIcon from "@components/resources/icons/EmailIcon.astro";
 import MapPinIcon from "./resources/icons/MapPinIcon.astro";
 const CDL = "{CDL}";
 
@@ -13,7 +14,8 @@ const contact = {
   instagram: "#",
   whatsapp: "#",
   phone: "#",
-  ubicacion: "#"
+  ubicacion: "#",
+  email: '#'
 };
 ---
 
@@ -33,12 +35,13 @@ const contact = {
     </div>
 
     <div
-      class="flex justify-center gap-8 md:gap-4 flex-nowrap *:bg-orange-500 *:text-white *:inline-block *:p-1 *:rounded *:scale-150 *:md:scale-125 *:transition"
+      class="flex justify-center gap-7 md:gap-4 flex-nowrap *:bg-orange-500 *:text-white *:inline-block *:p-1 *:rounded *:scale-150 *:md:scale-125 *:transition"
     >
       <a href={contact.x} class="hover:-translate-y-0.5" title="Cuenta de X"><XIcon className="" /></a>
       <a href={contact.facebook} class="hover:-translate-y-0.5" title="Cuenta de facebook"><FacebookIcon className="" /></a>
       <a href={contact.instagram} class="hover:-translate-y-0.5" title="Cuenta de Instagram"><InstagramIcon className="" /></a>
       <a href={contact.whatsapp} class="hover:-translate-y-0.5" title="Enviar WhatsApp"><WhatsAppIcon className="" /></a>
+      <a href={contact.email} class="hover:-translate-y-0.5" title="Enviar Correo"><EmailIcon className="" /></a>
       <a href={contact.phone} class="hover:-translate-y-0.5" title="Llamar"><PhoneIcon className="" /></a>
     </div>
   </div>
