@@ -1,0 +1,25 @@
+---
+import DeleteIcon from "./icons/DeleteIcon.astro"
+import MinusIcon from "./icons/MinusIcon.astro"
+import PlusIcon from "./icons/PlusIcon.astro"
+
+ const {image, name, quantity, price} = Astro.props
+---
+
+<div class="grid grid-rows-2 grid-cols-4 gap-x-4 lg:gap-x-7 items-end lg:grid-rows-1 lg:items-center border-b pt-2 pb-4 lg:grid-cols-8">
+    <img src={image} alt={name} class="w-full aspect-square max-w-24 row-span-2 place-self-center">
+    <h5 class="col-span-3 lg:col-span-4 lg:pl-10 line-clamp-2 text-ellipsis">
+        {name}
+    </h5>
+    <div class="text-nowrap flex gap-1 flex-nowrap items-center justify-between"> 
+        <button title="Disminuir" class="text-orange-500 scale-125 active:scale-110 transition"><MinusIcon /></button> 
+        <span class="text-lg">{quantity}</span> 
+        <button title="Aumentar" class="text-orange-500 scale-125 active:scale-110 transition"><PlusIcon/></button>
+    </div>
+    <p class="text-lg font-semibold text-right">${price}</p>
+    <button title="Eliminar" class="justify-self-end lg:self-center w-fit flex justify-end bg-red-500 p-1 rounded transition text-white active:scale-95"><DeleteIcon/></button>
+</div>
+
+<script>
+
+</script>

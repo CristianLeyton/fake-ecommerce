@@ -22,7 +22,7 @@ const { title = 'Todos los productos' } = Astro.props;
             </div>
     </article>
     <article class="md:col-span-2 gap-4 grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-        <h5 class="col-span-full h-fit w-full text-pretty p-4 text-sm bg-yellow-50 dark:bg-neutral-700 rounded-lg flex justify-between items-center gap-4 shadow">
+        <div class="col-span-full h-fit w-full text-pretty p-4 text-sm bg-yellow-50 dark:bg-neutral-700 rounded-lg flex justify-between items-center gap-4 shadow">
             <p>
               Agrega cualquier producto a tu lista de deseos dando un click en el <HeartIcon
                 className="text-orange-500 inline-block size-4 mb-1"
@@ -32,7 +32,7 @@ const { title = 'Todos los productos' } = Astro.props;
               >
             </p>
             <InfoIcon className="text-orange-500 size-7" />
-          </h5>
+          </div>
         <h2 class="col-span-full font-bold text-xl w-full">{title}</h2>
         <slot/>
     </article>

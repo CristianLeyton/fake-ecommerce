@@ -1,0 +1,100 @@
+---
+import EmailIcon from "@components/resources/icons/EmailIcon.astro";
+import InfoIcon from "@components/resources/icons/InfoIcon.astro";
+import DeleteIcon from "@components/resources/icons/DeleteIcon.astro";
+import Layout from "@layouts/Layout.astro";
+import WishItemCard from "@components/resources/WishItemCard.astro";
+import Fire from "public/src/images/fire.png";
+import WhatsAppIcon from "@components/resources/icons/WhatsAppIcon.astro";
+import CopyIcon from "@components/resources/icons/CopyIcon.astro";
+---
+
+<Layout title="Lista de Deseos">
+  <section class="p-2 grid gap-3 md:grid-cols-3">
+    <header class="flex flex-col gap-3 md:col-span-full">
+      <h2 class="font-bold text-2xl">Tu lista de deseos</h2>
+      <div
+        class="text-pretty p-4 text-sm bg-yellow-50 dark:bg-neutral-700 rounded-lg flex items-center justify-between shadow"
+      >
+        <p>
+          Edita las cantidades que necesites y al final podras enviar tu lista.
+          Si "copias" el presupuesto a tu portapapeles, puedes enviarnoslo por
+          cualquier medio.
+        </p>
+        <InfoIcon className="text-orange-500 size-7 min-w-6" />
+      </div>
+    </header>
+    <main
+      class="bg-yellow-50 dark:bg-neutral-700 rounded-lg p-4 flex flex-col gap-1 items-center shadow md:col-span-2"
+    >
+      <header class="flex items-center w-full justify-between border-b pb-3">
+        <h3 class="font-bold">Editar lista</h3>
+        <button title="Eliminar todo"
+          class="bg-red-500 text-white inline-flex items-center font-semibold text-sm gap-1 px-2 py-1 rounded transition hover:-translate-y-0.5"
+          >Vaciar lista <DeleteIcon className="inline-block" /></button
+        >
+      </header>
+      <main>
+        <WishItemCard
+          image={Fire.src}
+          name="Nombre del producto"
+          quantity="1"
+          price="1500"
+        />
+        <WishItemCard
+          image={Fire.src}
+          name="Nombre del producto"
+          quantity="1"
+          price="1500"
+        />
+        <WishItemCard
+          image={Fire.src}
+          name="Nombre del producto"
+          quantity="1"
+          price="1500"
+        />
+      </main>
+    </main>
+    <aside
+      class="bg-yellow-50 dark:bg-neutral-700 rounded-lg p-4 flex flex-col gap-1 items-center shadow h-fit"
+    >
+      <header class="flex w-full justify-between border-b pb-3">
+        <h3 class="font-bold">Enviar lista</h3>
+
+        <div class="flex items-center *:rounded text-white gap-2">
+          <button class="p-1 hover:-translate-y-0.5 transition bg-orange-500" title="Copiar"><CopyIcon/></button>
+          <button class="p-1 hover:-translate-y-0.5 transition bg-blue-500" title="Enviar por Mail"><EmailIcon /></button>
+          <button class="p-0.5 hover:-translate-y-0.5 transition bg-green-500" title="Enviar por WhatsApp"><WhatsAppIcon /></button>
+        </div>
+      </header>
+
+      <div class="w-full text-left text-sm grid grid-cols-5 font-semibold">
+        <span class="text-ellipsis overflow-hidden text-center">
+          <span class="inline-block md:hidden xl:inline-block">Cantidad</span>
+          <span class="hidden md:inline-block xl:hidden">Cant.</span>
+        </span>
+        <span class="col-span-3"> Nombre </span>
+        <span class="text-right"> Precio </span>
+      </div>
+
+      <div class="w-full text-left text-sm grid grid-cols-5">
+        <span class="text-center"> 10</span>
+        <span class="col-span-3"> Descripción del producto </span>
+        <span class="text-right"> $2000 </span>
+
+        <span class="text-center"> 10</span>
+        <span class="col-span-3"> Descripción del producto</span>
+        <span class="text-right"> $2000 </span>
+
+        <span class="text-center"> 10</span>
+        <span class="col-span-3"> Descripción del producto</span>
+        <span class="text-right"> $20000 </span>
+      </div>
+
+      <div class="border-t flex justify-between w-full mt-1 pt-2 font-bold">
+        <h3 class="">Total:</h3>
+        <span class="">$2000</span>
+      </div>
+    </aside>
+  </section>
+</Layout>
