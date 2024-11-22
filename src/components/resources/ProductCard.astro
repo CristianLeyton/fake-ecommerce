@@ -1,5 +1,5 @@
 ---
-const { title, image, price } = Astro.props;
+const { title, image, price, sku} = Astro.props;
 import HeartIcon from "@icons/HeartIcon.astro";
 ---
 
@@ -10,9 +10,9 @@ import HeartIcon from "@icons/HeartIcon.astro";
   class="productCard bg-yellow-50 dark:bg-neutral-700 rounded-lg py-4 px-4 flex flex-col gap-1 items-center shadow"
 >
   <header
-    class="font-semibold text-ellipsis line-clamp-1 text-nowrap text-lg self-start"
+    class="flex w-full justify-between self-start"
   >
-    {title}
+    <span class="font-semibold text-ellipsis line-clamp-1 text-nowrap text-lg">{title}</span> <span class="text-sm opacity-75"> {sku} </span>
   </header>
   <main class="flex md:flex-col items-center gap-3 md:gap-1">
     <img
