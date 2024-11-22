@@ -2,6 +2,6 @@
 const {text = "button", href} = Astro.props;
 ---
 
-<a href={href} title={text} class="group transition inline-flex items-center justify-center w-full md:w-fit bg-yellow-50 hover:saturate-150 dark:bg-neutral-600 dark:hover:bg-neutral-700 hover:shadow-none shadow-sm font-semibold px-5 py-2.5 rounded-lg">
+<a href={href} title={text} class="group transition inline-flex items-center justify-center w-full md:w-fit bg-yellow-50/80 hover:saturate-150 dark:bg-neutral-600 dark:hover:bg-neutral-700 hover:shadow-none shadow-sm font-semibold px-5 py-2.5 rounded-lg">
     {text} <span class="group-hover:translate-x-1 transition"><slot /></span>
 </a>
