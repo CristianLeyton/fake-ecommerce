@@ -9,10 +9,10 @@ const allProducts = await getAllProducts();
 <Products>
   {
     allProducts.map((product) => {
-      const { name, description, image, price } = product;
+      const { name, description, image, price, sku} = product;
       console.log(product);
       return (
-        <ProductCard title={name} image={image.url} price={price}>
+        <ProductCard title={name} image={image.url} price={price} sku={sku}>
           {description}
         </ProductCard>
       );
