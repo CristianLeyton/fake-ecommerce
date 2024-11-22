@@ -1,34 +1,110 @@
 ---
 import DeleteIcon from "./resources/icons/DeleteIcon.astro";
-import WishItemCard from "./resources/WishItemCard.astro";
-import Fire from "public/src/images/fire.png";
 ---
 
-<header class="flex items-center w-full justify-between border-b dark:border-neutral-600 pb-2">
+<header
+  class="flex items-center w-full justify-between border-b dark:border-neutral-600 pb-2"
+>
   <h3 class="font-bold">Editar lista</h3>
   <button
+    id="cleanList"
     title="Eliminar todo"
     class="bg-red-500 text-white inline-flex items-center font-semibold text-sm gap-1 px-3 py-1.5 rounded transition hover:-translate-y-0.5"
     >Vaciar lista <DeleteIcon className="inline-block" /></button
   >
 </header>
-<main>
-  <WishItemCard
-    image={Fire.src}
-    name="Nombre del producto"
-    quantity="1"
-    price="1500"
-  />
-  <WishItemCard
-    image={Fire.src}
-    name="Nombre del producto"
-    quantity="1"
-    price="1500"
-  />
-  <WishItemCard
-    image={Fire.src}
-    name="Nombre del producto"
-    quantity="1"
-    price="1500"
-  />
-</main>
+<main id="wishList" class=""></main>
+
+<style is:global>
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  @layer components {
+    .wish-item {
+      @apply grid grid-rows-2 grid-cols-4 gap-x-4 xl:gap-x-7 items-end lg:grid-rows-1 lg:items-center dark:border-neutral-600 border-b pt-2 pb-4 lg:grid-cols-8;
+    }
+    .wish-item img {
+      @apply w-full aspect-square max-w-24 row-span-2 place-self-center;
+    }
+    .wish-item h5 {
+      @apply col-span-3 lg:col-span-4 lg:pl-6 line-clamp-2 text-ellipsis;
+    }
+    .quantity-control {
+      @apply text-nowrap flex gap-1 flex-nowrap items-center justify-between;
+    }
+
+    .wish-item .quantityBtn {
+      @apply bg-orange-500 h-6 min-w-6 pb-2.5 font-bold rounded-full flex items-center justify-center;
+    }
+
+    .price {
+      @apply text-lg font-semibold text-right;
+    }
+    .wish-item button {
+      @apply justify-self-end lg:self-center w-fit flex justify-end bg-red-500 p-1.5 rounded transition text-white active:scale-95;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const cleanList = document.querySelector("#cleanList");
+    //Boton para vaciar toda la lista
+    if (cleanList) {
+      cleanList.addEventListener("click", () => {
+        localStorage.setItem("wishList", JSON.stringify([]));
+        window.dispatchEvent(
+          new CustomEvent("user:addedProduct", { detail: "Se vació la lista" })
+        );
+      });
+    }
+
+    wishList();
+
+    function getWishList() {
+      //Si es la primera vez y no existe la lista de deseos, la creo
+      let WishList = JSON.parse(localStorage.getItem("wishList")) || [];
+      if (WishList.length === 0) {
+        localStorage.setItem("wishList", JSON.stringify([])); //Comprueba si ya existe o no, y la crea
+      }
+      return WishList;
+    }
+
+    function wishList() {
+      const localWishList = getWishList();
+      const wishList = document.querySelector("#wishList");
+
+      if (wishList) {
+        if (localWishList.length === 0) {
+          wishList.innerHTML = `<span class='col-span-full text-center'>¡La lista está vacia!</span>`;
+        } else {
+          wishList.innerHTML = ""; //Reseteo la lista
+
+          localWishList.forEach((item) => {
+            const itemCard = `<div class="wish-item">
+        <img src="${item.image}" alt="${item.title}">
+        <h5>${item.title}</h5>
+        <div class="quantity-control">
+          <button class='quantityBtn' title="Disminuir">-</button>
+          <span>${item.quantity}</span>
+          <button class='quantityBtn' title="Aumentar">+</button>
+        </div>
+        <p class="price">$${item.price}</p>
+        <button title="Eliminar"><svg
+class="size-5"
+  viewBox="0 0 24 24"
+  style="fill: currentColor;transform: ;msFilter:;"
+  ><path
+    d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2zM9 4h6v2H9zM8 8h9v12H7V8z"
+  ></path><path d="M9 10h2v8H9zm4 0h2v8h-2z"></path></svg
+></button>
+      </div>`;
+
+            wishList.insertAdjacentHTML("beforeend", itemCard);
+          });
+        }
+      }
+    }
+  });
+</script>

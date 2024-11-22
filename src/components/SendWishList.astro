@@ -46,50 +46,65 @@ import WhatsAppIcon from "./resources/icons/WhatsAppIcon.astro";
   class="border-t dark:border-neutral-600 flex justify-between w-full mt-1 pt-2 font-bold"
 >
   <h3 class="">Total:</h3>
-  <span class="">$2000</span>
+  <span
+    >$
+    <span id="totalList">0</span></span
+  >
 </div>
 
-<script is:inline>
-  document.addEventListener("astro:page-load", () => {
-    const localWishList = getWishList();
-    const sendWishList = document.querySelector("#sendWishList");
+<script >
 
-    function getWishList() {
+function getWishList() {
       //Si es la primera vez y no existe la lista de deseos, la creo
-      let WishList = JSON.parse(localStorage.getItem("wishList"));
-      if (WishList == null) {
-        localStorage.setItem("wishList", "[]");
-      } //Comprueba si ya existe o no, y la crea
-      WishList = JSON.parse(localStorage.getItem("wishList"));
+      let WishList = JSON.parse(localStorage.getItem("wishList")) || [];
+      if (WishList.length === 0) {
+          localStorage.setItem("wishList", JSON.stringify([])); //Comprueba si ya existe o no, y la crea
+      }
       return WishList;
     }
 
+  function calculateWishList() {
+    const localWishList = getWishList();   
+    const sendWishList = document.querySelector("#sendWishList");
+    const totalList = document.querySelector("#totalList");
+
     if (sendWishList) {
-      if (localWishList[0] == null) {
+      if (localWishList.length === 0) {
         sendWishList.innerHTML = `<span class='col-span-full text-center'>¡La lista está vacia!</span>`;
       } else {
+        sendWishList.innerHTML = ""; //Reseteo la lista
 
-        sendWishList.innerHTML = '' //Reseteo la lista
+        localWishList.forEach((item) => {
+          let cant = document.createElement("span");
+          cant.classList.add("text-center");
+          cant.textContent = item.quantity;
 
-        localWishList.forEach(item => {
-            let cant = document.createElement('span');
-            cant.classList.add('text-center');
-            cant.textContent = item.quantity;
+          let name = document.createElement("span");
+          name.classList.add("text-left");
+          name.classList.add("col-span-3");
+          name.textContent = item.title;
 
-            let name = document.createElement('span');
-            name.classList.add('text-left');
-            name.classList.add('col-span-3');
-            name.textContent = item.title;
+          let price = document.createElement("span");
+          price.classList.add("text-right");
+          //@ts-ignore
+          price.textContent = item.quantity * item.price;
 
-            let price = document.createElement('span');
-            price.classList.add('text-right');
-            price.textContent = item.price;
-
-            sendWishList.insertAdjacentElement('beforeend', cant);
-            sendWishList.insertAdjacentElement('beforeend', name);
-            sendWishList.insertAdjacentElement('beforeend', price);
+          sendWishList.insertAdjacentElement("beforeend", cant);
+          sendWishList.insertAdjacentElement("beforeend", name);
+          sendWishList.insertAdjacentElement("beforeend", price);
         });
       }
+
+      //Suma total
+      let sum = 0;
+      localWishList.forEach((item) => {
+        sum = sum + Number(item.quantity * item.price);
+      });
+      //@ts-ignore
+      totalList.innerHTML = sum;
     }
-  });
+  }
+
+  document.addEventListener("astro:page-load", calculateWishList);
+  window.addEventListener("user:addedProduct", calculateWishList);
 </script>

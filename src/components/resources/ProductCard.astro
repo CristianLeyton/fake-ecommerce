@@ -42,13 +42,13 @@ import HeartIcon from "@icons/HeartIcon.astro";
     const buttons = document.querySelectorAll(".btnAddToWishList");
     const localWishList = getWishList();
 
+
     function getWishList() {
       //Si es la primera vez y no existe la lista de deseos, la creo
-      let WishList = JSON.parse(localStorage.getItem("wishList"));
-      if (WishList == null) {
-        localStorage.setItem("wishList", "[]");
-      } //Comprueba si ya existe o no, y la crea
-      WishList = JSON.parse(localStorage.getItem("wishList"));
+      let WishList = JSON.parse(localStorage.getItem("wishList")) || [];
+      if (WishList.length === 0) {
+          localStorage.setItem("wishList", JSON.stringify([])); //Comprueba si ya existe o no, y la crea
+      }
       return WishList;
     }
 
@@ -75,19 +75,21 @@ import HeartIcon from "@icons/HeartIcon.astro";
         const existItem = localWishList.find(
           (itemList) => itemList.title == item.title
         ); //busca si ya existe algun item con el mismo nombre en la lista de deseos
-
+        
         if (existItem) {
-            existItem.quantity++;
+          existItem.quantity++;
           //console.log("Aumentada la cantidad de " + item.title);
+          // Enviar el evento a nivel de `window`
+          setWishList();
           window.dispatchEvent(new CustomEvent("user:addedProduct", {  detail: 'Se agregó uno más a la lista' }));
         } else {
           localWishList.push(item);
           //console.log("Añadido " + item.title);
+          // Enviar el evento a nivel de `window`
+          setWishList();
           window.dispatchEvent(new CustomEvent("user:addedProduct", {  detail: 'Producto añadido a la lista' }));
         }
 
-        setWishList();
-        // Enviar el evento a nivel de `window`
       });
     });
   });
