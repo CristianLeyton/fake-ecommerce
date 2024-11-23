@@ -52,6 +52,7 @@ import WhatsAppIcon from "./resources/icons/WhatsAppIcon.astro";
   >
 </div>
 
+
 <script >
 
 function getWishList() {
@@ -70,7 +71,7 @@ function getWishList() {
 
     if (sendWishList) {
       if (localWishList.length === 0) {
-        sendWishList.innerHTML = `<span class='col-span-full text-center'>¡La lista está vacia!</span>`;
+        sendWishList.innerHTML = `<span class='col-span-full text-center inline-block'>¡Aún no hay nada por aquí!</span>`;
       } else {
         sendWishList.innerHTML = ""; //Reseteo la lista
 

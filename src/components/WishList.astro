@@ -1,19 +1,56 @@
 ---
 import DeleteIcon from "./resources/icons/DeleteIcon.astro";
+import StoreIcon from "./resources/icons/StoreIcon.astro";
 ---
 
 <header
   class="flex items-center w-full justify-between border-b dark:border-neutral-600 pb-2"
 >
   <h3 class="font-bold">Editar lista</h3>
-  <button
-    id="cleanList"
-    title="Eliminar todo"
-    class="bg-red-500 text-white inline-flex items-center font-semibold text-sm gap-1 px-3 py-1.5 rounded transition hover:-translate-y-0.5"
-    >Vaciar lista <DeleteIcon className="inline-block" /></button
-  >
+
+  <div class="flex flex-nowrap gap-2 justify-end">
+    <button
+      id="cleanList"
+      title="Eliminar todo"
+      class="bg-red-500 text-white inline-flex items-center font-semibold text-sm gap-1.5 px-2 py-1.5 rounded flex-nowrap text-nowrap transition hover:-translate-y-0.5"
+      >Vaciar lista <DeleteIcon className="inline-block" /></button
+    >
+    <a
+      href="/categories"
+      title="Ver más productos"
+      class="bg-orange-500 text-white inline-flex flex-nowrap items-center text-nowrap font-semibold text-sm gap-1.5 px-2 py-1.5 rounded transition hover:-translate-y-0.5"
+    >
+      Agregar
+      <StoreIcon />
+    </a>
+  </div>
 </header>
 <main id="wishList" class=""></main>
+<!-- Modal para eliminar todos los items de la lista -->
+<dialog id="deleteListModal" class="backdrop:bg-neutral-700/30 dark:backdrop:bg-neutral-950/60 rounded-xl overflow-hidden bg-red-500">
+  <div class="bg-yellow-50 dark:bg-neutral-600 p-4">
+    <header class="dark:text-white flex flex-col gap-3 w-full justify-center items-center">
+      <i class="text-red-500 rounded-full"
+        ><svg
+        class="bg-white rounded-full pb-1.5 size-14"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          style="fill: currentColor;transform: ;msFilter:;"
+          ><path d="M11.001 10h2v5h-2zM11 16h2v2h-2z"></path><path
+            d="M13.768 4.2C13.42 3.545 12.742 3.138 12 3.138s-1.42.407-1.768 1.063L2.894 18.064a1.986 1.986 0 0 0 .054 1.968A1.984 1.984 0 0 0 4.661 21h14.678c.708 0 1.349-.362 1.714-.968a1.989 1.989 0 0 0 .054-1.968L13.768 4.2zM4.661 19 12 5.137 19.344 19H4.661z"
+          ></path></svg
+        ></i
+      > ¿Eliminar por completo la lista?
+    </header>
+    <p class="font-semibold dark:text-white">¿Estás seguro? <span class="text-red-500"> ¡Esta acción no se puede revertir!</span></p>
+  </div>
+  <footer class="flex justify-end items-center bg-orange-200 dark:bg-neutral-700 gap-2 px-4 py-2">
+    <button id="btnDeleteList" class="px-3 py-1 bg-red-500 rounded text-white">Eliminar</button>
+    <button id="closeModalDeleteList" class="px-3 py-1 bg-yellow-50 dark:bg-white rounded">Cerrar</button>
+  </footer>
+</dialog>
 
 <style is:global>
   @tailwind base;
@@ -63,7 +100,7 @@ import DeleteIcon from "./resources/icons/DeleteIcon.astro";
 
     if (wishList) {
       if (localWishList.length === 0) {
-        wishList.innerHTML = `<span class='col-span-full text-center'>¡La lista está vacia! <a href="/categories" class="text-orange-500 font-sembold"> Ver nuestros productos </a></span>`;
+        wishList.innerHTML = `<span class='col-span-full text-center inline-block pt-2'>¡La lista está vacia! <a href="/categories" class="text-orange-500 font-sembold"> ¡Agrega algun producto! </a></span>`;
       } else {
         wishList.innerHTML = ""; //Reseteo la lista
 
@@ -101,19 +138,51 @@ import DeleteIcon from "./resources/icons/DeleteIcon.astro";
     }
   }
 
+  function deleteAllList() {
+    const deleteListModal = document.querySelector("#deleteListModal");
+    const closeModalDeleteTask = document.querySelector(
+      "#closeModalDeleteList"
+    );
+
+    const btnDelete = document.querySelector("#btnDeleteList");
+    //@ts-ignore
+    deleteListModal.showModal();
+
+    closeModalDeleteTask.addEventListener("click", () => {
+      //@ts-ignore
+      deleteListModal.close();
+    });
+    // Escuchar clicks en el modal
+    deleteListModal.addEventListener("click", (event) => {
+      // Si el objetivo del click es el modal (y no su contenido), lo cerramos
+      if (event.target === deleteListModal) {
+        //@ts-ignore
+        deleteListModal.close();
+      }
+    });
+
+    // Remover cualquier listener previo antes de agregar uno nuevo
+    const newBtnDelete = btnDelete.cloneNode(true);
+    btnDelete.replaceWith(newBtnDelete);
+
+    //Eliminar tarea si doy click al boton "Eliminar"
+    newBtnDelete.addEventListener("click", () => {
+      localStorage.setItem("wishList", JSON.stringify([]));
+      //@ts-ignore
+      deleteListModal.close();
+      window.dispatchEvent(
+        new CustomEvent("user:addedProduct", { detail: "Se vació la lista" })
+      );
+    });
+  }
+
   document.addEventListener("astro:page-load", () => {
     const cleanList = document.querySelector("#cleanList");
     //Boton para vaciar toda la lista
     if (cleanList) {
-      cleanList.addEventListener("click", () => {
-        localStorage.setItem("wishList", JSON.stringify([]));
-        window.dispatchEvent(
-          new CustomEvent("user:addedProduct", { detail: "Se vació la lista" })
-        );
-      });
+      cleanList.addEventListener("click", deleteAllList);
+      wishList();
     }
-
-    wishList();
   });
 
   window.addEventListener("user:addedProduct", wishList);
