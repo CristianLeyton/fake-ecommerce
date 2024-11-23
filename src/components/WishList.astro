@@ -106,8 +106,8 @@ import StoreIcon from "./resources/icons/StoreIcon.astro";
     let localList = getWishList();
   }
 
+  const MIN_CANT_ITEM = 1;
   const MAX_CANT_ITEM = 20;
-  const MIN_CANT_ITEM = 0;
 
   function getWishList() {
     const wishList = JSON.parse(localStorage.getItem("wishList")) || [];
