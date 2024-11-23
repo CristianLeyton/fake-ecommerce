@@ -121,7 +121,6 @@ import StoreIcon from "./resources/icons/StoreIcon.astro";
     localStorage.setItem("wishList", JSON.stringify(localList));
   }
 
-
   function updateItemQuantity(itemTitle, delta) {
     const item = localList.find(({ title }) => title === itemTitle);
     if (item) {
@@ -150,7 +149,9 @@ import StoreIcon from "./resources/icons/StoreIcon.astro";
       return;
     }
 
-    wishListElement.innerHTML = localList.map(item => `
+    wishListElement.innerHTML = localList
+      .map(
+        (item) => `
       <div class="wish-item">
         <img src="${item.image}" alt="${item.title}">
         <h5>${item.title}</h5>
@@ -175,28 +176,40 @@ import StoreIcon from "./resources/icons/StoreIcon.astro";
           </svg>
         </button>
       </div>
-    `).join('');
+    `
+      )
+      .join("");
   }
 
   function deleteAllList() {
     const deleteListModal = document.querySelector("#deleteListModal");
-    const closeModalDeleteTask = document.querySelector("#closeModalDeleteList");
+    const closeModalDeleteTask = document.querySelector(
+      "#closeModalDeleteList"
+    );
     const btnDelete = document.querySelector("#btnDeleteList");
 
     deleteListModal.showModal();
 
-    closeModalDeleteTask.addEventListener("click", () => deleteListModal.close());
+    closeModalDeleteTask.addEventListener("click", () =>
+      deleteListModal.close()
+    );
     deleteListModal.addEventListener("click", (event) => {
       if (event.target === deleteListModal) deleteListModal.close();
     });
 
-    btnDelete.addEventListener("click", () => {
+    // Remover cualquier listener previo antes de agregar uno nuevo
+    const newBtnDelete = btnDelete.cloneNode(true);
+    btnDelete.replaceWith(newBtnDelete);
+
+    newBtnDelete.addEventListener("click", () => {
       localList = [];
       setWishList();
       deleteListModal.close();
-      window.dispatchEvent(new CustomEvent("user:addedProduct", {
-        detail: 'Se vació la lista'
-      }));
+      window.dispatchEvent(
+        new CustomEvent("user:addedProduct", {
+          detail: "Se vació la lista",
+        })
+      );
     });
   }
 
@@ -211,4 +224,3 @@ import StoreIcon from "./resources/icons/StoreIcon.astro";
   window.addEventListener("user:addedProduct", renderWishList);
   window.addEventListener("user:editQuantityProduct", renderWishList);
 </script>
-
