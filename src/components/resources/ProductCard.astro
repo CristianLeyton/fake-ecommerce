@@ -7,6 +7,7 @@ import HeartIcon from "@icons/HeartIcon.astro";
   title={title}
   data-image={image}
   data-price={price}
+  data-sku={sku}
   class="productCard bg-yellow-50 dark:bg-neutral-700 rounded-lg py-4 px-4 flex flex-col gap-1 items-center shadow"
 >
   <header
@@ -69,6 +70,7 @@ import HeartIcon from "@icons/HeartIcon.astro";
           title: card.getAttribute("title"),
           image: card.getAttribute("data-image"),
           price: card.getAttribute("data-price"),
+          sku: card.getAttribute("data-sku"),
           quantity: 1,
         };
 

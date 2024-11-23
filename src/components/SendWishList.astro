@@ -11,16 +11,22 @@ import WhatsAppIcon from "./resources/icons/WhatsAppIcon.astro";
 
   <div class="flex items-center *:rounded text-white gap-2">
     <button
+      id="btnCopy"
       class="p-1 hover:-translate-y-0.5 transition bg-orange-500"
       title="Copiar"><CopyIcon /></button
     >
-    <button
+    <a
+      href="#"
+      id="btnEmail"
       class="p-1 hover:-translate-y-0.5 transition bg-blue-500"
-      title="Enviar por Mail"><EmailIcon /></button
+      title="Enviar por Mail"><EmailIcon /></a
     >
-    <button
+    <a
+      href="#"
+      id="btnWsp"
+      target="_blank"
       class="p-1 hover:-translate-y-0.5 transition bg-green-500"
-      title="Enviar por WhatsApp"><WhatsAppIcon /></button
+      title="Enviar por WhatsApp"><WhatsAppIcon /></a
     >
   </div>
 </header>
@@ -52,20 +58,18 @@ import WhatsAppIcon from "./resources/icons/WhatsAppIcon.astro";
   >
 </div>
 
-
-<script >
-
-function getWishList() {
-      //Si es la primera vez y no existe la lista de deseos, la creo
-      let WishList = JSON.parse(localStorage.getItem("wishList")) || [];
-      if (WishList.length === 0) {
-          localStorage.setItem("wishList", JSON.stringify([])); //Comprueba si ya existe o no, y la crea
-      }
-      return WishList;
+<script>
+  function getWishList() {
+    //Si es la primera vez y no existe la lista de deseos, la creo
+    let WishList = JSON.parse(localStorage.getItem("wishList")) || [];
+    if (WishList.length === 0) {
+      localStorage.setItem("wishList", JSON.stringify([])); //Comprueba si ya existe o no, y la crea
     }
+    return WishList;
+  }
 
   function calculateWishList() {
-    const localWishList = getWishList();   
+    const localWishList = getWishList();
     const sendWishList = document.querySelector("#sendWishList");
     const totalList = document.querySelector("#totalList");
 
@@ -103,7 +107,105 @@ function getWishList() {
       });
       //@ts-ignore
       totalList.innerHTML = sum;
+
+      //Configuro los botones para que se puedan enviar los datos por ellos
+      setBtnWsp();
+      setBtnEmail();
+      // Asigna la función al evento de clic del botón
+      document
+        .querySelector("#btnCopy")
+        .addEventListener("click", copyListToClipboard);
     }
+  }
+
+  function setBtnWsp() {
+    const productos = getWishList();
+    const numeroTelefono = "543875459077";
+    const btnWsp = document.querySelector("#btnWsp");
+
+    // Formatea los datos en un mensaje de texto
+    let mensaje = "Mi lista:\n\n";
+    let total = 0;
+
+    productos.forEach((producto, index) => {
+      mensaje += `${index + 1}. ${producto.title}\n`;
+      mensaje += `      Cantidad: ${producto.quantity}\n`;
+      mensaje += `      Precio: $${producto.price * producto.quantity}\n`;
+      mensaje += `      SKU: ${producto.sku}\n\n`;
+
+      total = total + producto.price * producto.quantity;
+    });
+
+    mensaje += `*Total: $${total}*`;
+
+    // Codifica el mensaje para incluirlo en la URL
+    const mensajeCodificado = encodeURIComponent(mensaje);
+
+    // Crea la URL de WhatsApp
+    const urlWhatsApp = `https://api.whatsapp.com/send/?phone=${numeroTelefono}&text=${mensajeCodificado}`;
+
+    btnWsp.setAttribute("href", urlWhatsApp);
+  }
+
+  function setBtnEmail() {
+    const productos = getWishList();
+    const email = "leytoncristian96@gmail.com";
+    const btnEmail = document.querySelector("#btnEmail");
+
+    // Formatea los datos en un mensaje de texto
+    let mensaje = "Mi lista:\n\n";
+    let total = 0;
+
+    productos.forEach((producto, index) => {
+      mensaje += `${index + 1}. ${producto.title}\n`;
+      mensaje += `      Cantidad: ${producto.quantity}\n`;
+      mensaje += `      Precio: $${producto.price * producto.quantity}\n`;
+      mensaje += `      SKU: ${producto.sku}\n\n`;
+
+      total += producto.price * producto.quantity;
+    });
+
+    mensaje += `Total: $${total}`;
+
+    // Codifica el mensaje para incluirlo en el cuerpo del correo
+    const mensajeCodificado = encodeURIComponent(mensaje);
+
+    // Asunto del correo
+    const asunto = encodeURIComponent("Lista de Productos");
+
+    // Crea la URL de mailto
+    const urlEmail = `mailto:${email}?subject=${asunto}&body=${mensajeCodificado}`;
+
+    btnEmail.setAttribute("href", urlEmail);
+  }
+
+  function copyListToClipboard() {
+    const productos = getWishList();
+
+    // Formatea los datos en un mensaje de texto
+    let mensaje = "Mi lista:\n\n";
+    let total = 0;
+
+    productos.forEach((producto, index) => {
+      mensaje += `${index + 1}. ${producto.title}\n`;
+      mensaje += `      Cantidad: ${producto.quantity}\n`;
+      mensaje += `      Precio: $${producto.price * producto.quantity}\n`;
+      mensaje += `      SKU: ${producto.sku}\n\n`;
+
+      total += producto.price * producto.quantity;
+    });
+
+    mensaje += `Total: $${total}`;
+
+    // Usa la API de Portapapeles para copiar el mensaje
+    navigator.clipboard
+      .writeText(mensaje)
+      .then(() => {
+        window.dispatchEvent(new CustomEvent("user:addedProduct", {  detail: 'Se copio la lista al portapapeles.' }));
+      })
+      .catch((err) => {
+        console.error("Error al copiar al portapapeles: ", err);
+      });
   }
 
   document.addEventListener("astro:page-load", calculateWishList);
