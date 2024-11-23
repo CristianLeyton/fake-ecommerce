@@ -33,7 +33,7 @@ import WhatsAppIcon from "./resources/icons/WhatsAppIcon.astro";
     <span class="inline-block xl:hidden">Cant.</span>
   </span>
   <span class="col-span-3"> Nombre </span>
-  <span class="text-right"> Precio </span>
+  <span class="text-right"> SubTotal </span>
 </div>
 
 <div
@@ -108,4 +108,5 @@ function getWishList() {
 
   document.addEventListener("astro:page-load", calculateWishList);
   window.addEventListener("user:addedProduct", calculateWishList);
+  window.addEventListener("user:editQuantityProduct", calculateWishList);
 </script>

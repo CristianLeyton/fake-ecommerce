@@ -27,12 +27,17 @@ import StoreIcon from "./resources/icons/StoreIcon.astro";
 </header>
 <main id="wishList" class=""></main>
 <!-- Modal para eliminar todos los items de la lista -->
-<dialog id="deleteListModal" class="backdrop:bg-neutral-700/30 dark:backdrop:bg-neutral-950/60 rounded-xl overflow-hidden bg-red-500">
+<dialog
+  id="deleteListModal"
+  class="backdrop:bg-neutral-700/30 dark:backdrop:bg-neutral-950/60 rounded-xl overflow-hidden bg-red-500"
+>
   <div class="bg-yellow-50 dark:bg-neutral-600 p-4">
-    <header class="dark:text-white flex flex-col gap-3 w-full justify-center items-center">
+    <header
+      class="dark:text-white flex flex-col gap-3 w-full justify-center items-center"
+    >
       <i class="text-red-500 rounded-full"
         ><svg
-        class="bg-white rounded-full pb-1.5 size-14"
+          class="bg-white rounded-full pb-1.5 size-14"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -44,11 +49,22 @@ import StoreIcon from "./resources/icons/StoreIcon.astro";
         ></i
       > ¿Eliminar por completo la lista?
     </header>
-    <p class="font-semibold dark:text-white">¿Estás seguro? <span class="text-red-500"> ¡Esta acción no se puede revertir!</span></p>
+    <p class="font-semibold dark:text-white">
+      ¿Estás seguro? <span class="text-red-500">
+        ¡Esta acción no se puede revertir!</span
+      >
+    </p>
   </div>
-  <footer class="flex justify-end items-center bg-orange-200 dark:bg-neutral-700 gap-2 px-4 py-2">
-    <button id="btnDeleteList" class="px-3 py-1 bg-red-500 rounded text-white">Eliminar</button>
-    <button id="closeModalDeleteList" class="px-3 py-1 bg-yellow-50 dark:bg-white rounded">Cerrar</button>
+  <footer
+    class="flex justify-end items-center bg-orange-200 dark:bg-neutral-700 gap-2 px-4 py-2"
+  >
+    <button id="btnDeleteList" class="px-3 py-1 bg-red-500 rounded text-white"
+      >Eliminar</button
+    >
+    <button
+      id="closeModalDeleteList"
+      class="px-3 py-1 bg-yellow-50 dark:bg-white rounded">Cerrar</button
+    >
   </footer>
 </dialog>
 
@@ -76,7 +92,7 @@ import StoreIcon from "./resources/icons/StoreIcon.astro";
     }
 
     .price {
-      @apply text-lg font-semibold text-right;
+      @apply text-lg font-semibold text-right flex flex-nowrap gap-1 items-center;
     }
     .wish-item button {
       @apply justify-self-end lg:self-center w-fit flex justify-end bg-red-500 p-1.5 rounded transition text-white active:scale-95;
@@ -84,106 +100,115 @@ import StoreIcon from "./resources/icons/StoreIcon.astro";
   }
 </style>
 
-<script>
-  function getWishList() {
-    //Si es la primera vez y no existe la lista de deseos, la creo
-    let WishList = JSON.parse(localStorage.getItem("wishList")) || [];
-    if (WishList.length === 0) {
-      localStorage.setItem("wishList", JSON.stringify([])); //Comprueba si ya existe o no, y la crea
-    }
-    return WishList;
+<script is:inline>
+  // Verifica si localList ya está definida antes de declararla
+  if (typeof localList === "undefined") {
+    let localList = getWishList();
   }
 
-  function wishList() {
-    const localWishList = getWishList();
-    const wishList = document.querySelector("#wishList");
+  const MAX_CANT_ITEM = 20;
+  const MIN_CANT_ITEM = 0;
 
-    if (wishList) {
-      if (localWishList.length === 0) {
-        wishList.innerHTML = `<span class='col-span-full text-center inline-block pt-2'>¡La lista está vacia! <a href="/categories" class="text-orange-500 font-sembold"> ¡Agrega algun producto! </a></span>`;
-      } else {
-        wishList.innerHTML = ""; //Reseteo la lista
+  function getWishList() {
+    const wishList = JSON.parse(localStorage.getItem("wishList")) || [];
+    if (wishList.length === 0) {
+      localStorage.setItem("wishList", JSON.stringify([]));
+    }
+    return wishList;
+  }
 
-        localWishList.forEach((item) => {
-          const itemCard = `<div class="wish-item">
+  function setWishList() {
+    localStorage.setItem("wishList", JSON.stringify(localList));
+  }
+
+
+  function updateItemQuantity(itemTitle, delta) {
+    const item = localList.find(({ title }) => title === itemTitle);
+    if (item) {
+      const newQuantity = item.quantity + delta;
+      if (newQuantity >= MIN_CANT_ITEM && newQuantity <= MAX_CANT_ITEM) {
+        item.quantity = newQuantity;
+        setWishList();
+        window.dispatchEvent(new CustomEvent("user:editQuantityProduct"));
+      }
+    }
+  }
+
+  function removeItem(itemTitle) {
+    localList = localList.filter(({ title }) => title !== itemTitle);
+    setWishList();
+    window.dispatchEvent(new CustomEvent("user:editQuantityProduct"));
+  }
+
+  function renderWishList() {
+    localList = getWishList();
+    const wishListElement = document.querySelector("#wishList");
+    if (!wishListElement) return;
+
+    if (localList.length === 0) {
+      wishListElement.innerHTML = `<span class='col-span-full text-center inline-block pt-2'>¡La lista está vacía! <a href="/categories" class="text-orange-500 font-sembold"> ¡Agrega algún producto! </a></span>`;
+      return;
+    }
+
+    wishListElement.innerHTML = localList.map(item => `
+      <div class="wish-item">
         <img src="${item.image}" alt="${item.title}">
         <h5>${item.title}</h5>
+        <p class="price">$${item.price} <span class='text-xs font-normal opacity-50'>c/u<span></p>
         <div class="quantity-control">
-          <button class='quantityBtn' title="Disminuir">
+          <button onclick="updateItemQuantity('${item.title}', -1)" class='quantityBtn' title="Disminuir">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
           </button>
           <span>${item.quantity}</span>
-          <button class='quantityBtn' title="Aumentar">
+          <button onclick="updateItemQuantity('${item.title}', 1)" class='quantityBtn' title="Aumentar">
             <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
           </button>
         </div>
-        <p class="price">$${item.price}</p>
-        <button title="Eliminar"><svg
-        class="size-5"
-          viewBox="0 0 24 24"
-          style="fill: currentColor;transform: ;msFilter:;"
-          ><path
-            d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2zM9 4h6v2H9zM8 8h9v12H7V8z"
-          ></path><path d="M9 10h2v8H9zm4 0h2v8h-2z"></path></svg
-        ></button>
-        </div>`;
-
-          wishList.insertAdjacentHTML("beforeend", itemCard);
-        });
-      }
-    }
+        <button onclick="removeItem('${item.title}')" title="Eliminar">
+          <svg class="size-5" viewBox="0 0 24 24" style="fill: currentColor;transform: ;msFilter:;">
+            <path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2zM9 4h6v2H9zM8 8h9v12H7V8z"></path>
+            <path d="M9 10h2v8H9zm4 0h2v8h-2z"></path>
+          </svg>
+        </button>
+      </div>
+    `).join('');
   }
 
   function deleteAllList() {
     const deleteListModal = document.querySelector("#deleteListModal");
-    const closeModalDeleteTask = document.querySelector(
-      "#closeModalDeleteList"
-    );
-
+    const closeModalDeleteTask = document.querySelector("#closeModalDeleteList");
     const btnDelete = document.querySelector("#btnDeleteList");
-    //@ts-ignore
+
     deleteListModal.showModal();
 
-    closeModalDeleteTask.addEventListener("click", () => {
-      //@ts-ignore
-      deleteListModal.close();
-    });
-    // Escuchar clicks en el modal
+    closeModalDeleteTask.addEventListener("click", () => deleteListModal.close());
     deleteListModal.addEventListener("click", (event) => {
-      // Si el objetivo del click es el modal (y no su contenido), lo cerramos
-      if (event.target === deleteListModal) {
-        //@ts-ignore
-        deleteListModal.close();
-      }
+      if (event.target === deleteListModal) deleteListModal.close();
     });
 
-    // Remover cualquier listener previo antes de agregar uno nuevo
-    const newBtnDelete = btnDelete.cloneNode(true);
-    btnDelete.replaceWith(newBtnDelete);
-
-    //Eliminar tarea si doy click al boton "Eliminar"
-    newBtnDelete.addEventListener("click", () => {
-      localStorage.setItem("wishList", JSON.stringify([]));
-      //@ts-ignore
+    btnDelete.addEventListener("click", () => {
+      localList = [];
+      setWishList();
       deleteListModal.close();
-      window.dispatchEvent(
-        new CustomEvent("user:addedProduct", { detail: "Se vació la lista" })
-      );
+      window.dispatchEvent(new CustomEvent("user:addedProduct", {
+        detail: 'Se vació la lista'
+      }));
     });
   }
 
   document.addEventListener("astro:page-load", () => {
     const cleanList = document.querySelector("#cleanList");
-    //Boton para vaciar toda la lista
     if (cleanList) {
       cleanList.addEventListener("click", deleteAllList);
-      wishList();
+      renderWishList();
     }
   });
 
-  window.addEventListener("user:addedProduct", wishList);
+  window.addEventListener("user:addedProduct", renderWishList);
+  window.addEventListener("user:editQuantityProduct", renderWishList);
 </script>
+
