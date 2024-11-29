@@ -25,8 +25,17 @@ Por último la propia lista de deseos, donde se puede editar y enviar la misma.
 De nuevo, quizá entres y demore en cargar, es porque alojé el backend en un host gratuito que se apaga por inactividad. Espero pronto poder cambiar de host. 
 Por cierto, para el backend use Strapi, pero estoy pensando en usar AstroDB ya que solo son dos tablas. Deberia de poder hacerlo. 
 
+![image](https://github.com/user-attachments/assets/7bcbd871-f989-48ca-9acb-7d773c2b60fb)
+
 Acceder al sitio: 
 https://ecommerce-fake-cdl.vercel.app/
+
+Acceder al backend:
+<https://backend-ecommerce-c8cn.onrender.com/admin>
+
+> *Usuario*: <test@mail.com>
+>
+> *Contraseña*: Test1234
 
 Ver más de mis proyectos en:
 https://www.cdl.net.ar/
