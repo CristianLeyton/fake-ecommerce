@@ -26,7 +26,7 @@ De nuevo, quizá entres y demore en cargar, es porque alojé el backend en un ho
 Por cierto, para el backend use Strapi, pero estoy pensando en usar AstroDB ya que solo son dos tablas. Deberia de poder hacerlo. 
 
 Acceder al sitio: 
-https://page-cosmetica.vercel.app/
+https://ecommerce-fake-cdl.vercel.app/
 
 Ver más de mis proyectos en:
 https://www.cdl.net.ar/
