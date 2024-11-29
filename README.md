@@ -1,54 +1,33 @@
-# Astro Starter Kit: Basics
+## FireWorks | Web Site
 
-```sh
-npm create astro@latest -- --template basics
-```
+Le puse como titulo "Fake-Ecommerce" porque para que sea un Ecommerce deberia tener una pasarela de pago. Este sitio solo te genera una **"Lista de Deseos"**. Es como que armar un presupuesto que al final lo envias por WhatsApp o Correo para confirmar el pedido a la empresa. 
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+Consta de tres secciones principales. 
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+# El inicio: 
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+![image](https://github.com/user-attachments/assets/f3d37db3-5cd8-4684-9a82-ca15c79e3cd8)
 
-## 🚀 Project Structure
+Una landing page con una cuenta regresiva para las fiestas, y una presentación rapida de las categorias de los productos y la empresa.
 
-Inside of your Astro project, you'll see the following folders and files:
+# Los productos:
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+![image](https://github.com/user-attachments/assets/f2210761-9998-4c50-98c9-73d07377c304)
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+La sección "Productos" donde se puede agregar lo que quieras a la lista de deseos, dandole click al corazon naranja. 
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+# La lista de deseos:
 
-Any static assets, like images, can be placed in the `public/` directory.
+![image](https://github.com/user-attachments/assets/6307a2b6-b59e-4478-8ad7-70365f3020ac)
 
-## 🧞 Commands
+Por último la propia lista de deseos, donde se puede editar y enviar la misma. 
 
-All commands are run from the root of the project, from a terminal:
+De nuevo, quizá entres y demore en cargar, es porque alojé el backend en un host gratuito que se apaga por inactividad. Espero pronto poder cambiar de host. 
+Por cierto, para el backend use Strapi, pero estoy pensando en usar AstroDB ya que solo son dos tablas. Deberia de poder hacerlo. 
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Acceder al sitio: 
+https://page-cosmetica.vercel.app/
 
-## 👀 Want to learn more?
+Ver más de mis proyectos en:
+https://www.cdl.net.ar/
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
