@@ -3,7 +3,16 @@ import Title from "@components/resources/Title.astro";
 import Card from "@components/resources/Card.astro";
 import { getCategories } from "@lib/get-categories";
 
+//@ts-ignore
+import { db, Categories } from 'astro:db';
+
 const allCategories = await getCategories();
+//@ts-ignore
+//const allCategories = await db.select().from(Categories);
+
+//Inserta datos en la db
+//await db.insert(Categories).values({ name: 'Hola test' });
+
 ---
 
 <section id="categorias" class="py-5 px-2 scroll-m-80 md:scroll-m-20">
@@ -15,9 +24,12 @@ const allCategories = await getCategories();
     {
       allCategories.map((categorie) => {
         const url = "/categories/" + categorie.id_categorie;
-
+//@ts-ignore
+        //const url = "/categories/" + categorie.id;
         return (
           <Card title={categorie.name} image={categorie.image.url} href={url} />
+          //@ts-ignore
+          //<Card title={categorie.name} image={categorie.urlImage} href={url} />
         );
       })
     }
