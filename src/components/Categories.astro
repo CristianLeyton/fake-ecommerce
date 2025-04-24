@@ -37,6 +37,7 @@ const allCategories = await getCategories();
 </section>
 
 <script>
+document.addEventListener("astro:page-load", () => {
   const parent = document.querySelector(".parent");
   const childrenCount = parent.children.length;
 
@@ -48,4 +49,5 @@ const allCategories = await getCategories();
       parent.classList.add("2xl:grid-cols-4");
     }
   }
+});
 </script>
