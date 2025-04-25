@@ -1,4 +1,5 @@
 import { query } from "./connection";
+const { API_URL } = import.meta.env;
 
 export function getAllProducts() {
   return query("products").then((res) => {
@@ -9,7 +10,7 @@ export function getAllProducts() {
       price: element.price,
       sku: element.sku,
       image: {
-        url: `http://fireworks.com/storage_public/${element.urlImage}`,
+        url: `${API_URL}/storage_public/${element.urlImage}`,
       },
     }));
   });
@@ -28,7 +29,7 @@ export function getProducts(id_categoria) {
         price: element.price,
         sku: element.sku,
         image: {
-          url: `http://fireworks.com/storage_public/${element.urlImage}`,
+          url: `${API_URL}/storage_public/${element.urlImage}`,
         },
       }));
   });
