@@ -17,21 +17,20 @@ export async function getStaticPaths() {
 
   return categories.map((categorie: Category) => ({
     params: { slug: categorie.id_categorie.toString() },
-    props: { categorie },
+    props: { categorie: categorie as Category },
     revalidate: 30, // Revalidar cada 30 segundos
   }));
 }
 
 // Obtener el parámetro dinámico y props
 const { slug } = Astro.params;
-const { categorie } = Astro.props;
+const { categorie } = Astro.props as { categorie: Category };
 
 //Obtengo los productos de la categoria seleccionada
 import { getProducts } from "@lib/get-products";
 import ProductCard from "@components/resources/ProductCard.astro";
 const allProducts = await getProducts(slug);
 ---
-
 
 <Products title={categorie.name}>
   {
