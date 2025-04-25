@@ -1,16 +1,29 @@
-const { API_URL } = import.meta.env;
-import { revalidate } from "./revalidate";
+const { PUBLIC_API_URL } = import.meta.env;
+
+// Cache para almacenar las respuestas
+const cache = new Map();
+const CACHE_DURATION = 5 * 1000; // 5 segundos
 
 export function query(url: string) {
-  return fetch(`${API_URL}/api/${url}`, {
+  const now = Date.now();
+  const cacheKey = `${url}-${Math.floor(now / CACHE_DURATION)}`;
+
+  // Si tenemos una respuesta en caché y no ha expirado, la devolvemos
+  if (cache.has(cacheKey)) {
+    return Promise.resolve(cache.get(cacheKey));
+  }
+
+  // Si no hay caché o ha expirado, hacemos la petición
+  return fetch(`${PUBLIC_API_URL}/api/${url}`, {
     headers: {
-      "Cache-Control": "max-age=60, stale-while-revalidate=30",
+      "Cache-Control": "no-cache",
     },
   })
     .then((res) => res.json())
     .then((res) => {
-      // Revalidar cada vez que se hace una petición
-      revalidate();
-      return res.data;
+      const data = res.data;
+      // Guardamos en caché
+      cache.set(cacheKey, data);
+      return data;
     });
 }
