@@ -1,4 +1,4 @@
-const { PUBLIC_API_URL } = import.meta.env;
+const { API_URL } = import.meta.env;
 
 // Cache para almacenar las respuestas
 const cache = new Map();
@@ -14,7 +14,7 @@ export function query(url: string) {
   }
 
   // Si no hay caché o ha expirado, hacemos la petición
-  return fetch(`${PUBLIC_API_URL}/api/${url}`, {
+  return fetch(`${API_URL}/api/${url}`, {
     headers: {
       "Cache-Control": "no-cache",
     },
