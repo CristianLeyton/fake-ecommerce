@@ -1,14 +1,13 @@
 import { defineConfig } from 'astro/config';
 
 import tailwind from '@astrojs/tailwind';
+import vercel from '@astrojs/vercel/serverless';
 
 export default defineConfig({
   integrations: [tailwind()],
-  output: 'static',
+  output: 'server',
+  adapter: vercel(),
   experimental: {
-    contentCollectionCache: true,
-    contentCollectionCache: {
-      revalidate: 1 // Revalidar cada 1 segundo
-    }
+    contentCollectionCache: true
   }
 });
