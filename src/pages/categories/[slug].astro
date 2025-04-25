@@ -2,13 +2,29 @@
 import { getCategories } from "@lib/get-categories";
 import Products from "@layouts/LayoutProducts.astro";
 
-// Obtener el parámetro dinámico
-const { slug } = Astro.params;
+interface Category {
+  id_categorie: number;
+  name: string;
+  description: string;
+  image: {
+    url: string;
+  };
+}
 
-// Lógica para obtener la información específica de la categoría
-const category = await getCategories().then((categories) =>
-  categories.find((c) => c.id_categorie.toString() === slug)
-);
+// Obtener los datos para las rutas dinámicas
+export async function getStaticPaths() {
+  const categories = await getCategories();
+
+  return categories.map((categorie: Category) => ({
+    params: { slug: categorie.id_categorie.toString() },
+    props: { categorie },
+    revalidate: 30, // Revalidar cada 30 segundos
+  }));
+}
+
+// Obtener el parámetro dinámico y props
+const { slug } = Astro.params;
+const { categorie } = Astro.props;
 
 //Obtengo los productos de la categoria seleccionada
 import { getProducts } from "@lib/get-products";
@@ -16,7 +32,8 @@ import ProductCard from "@components/resources/ProductCard.astro";
 const allProducts = await getProducts(slug);
 ---
 
-<Products title={category.name}>
+
+<Products title={categorie.name}>
   {
     allProducts[0] ? (
       allProducts.map((product) => {

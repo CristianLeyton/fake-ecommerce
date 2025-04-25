@@ -5,8 +5,13 @@ import vercel from '@astrojs/vercel/serverless';
 
 export default defineConfig({
   integrations: [tailwind()],
-  output: 'server',
-  adapter: vercel(),
+  output: 'static',
+  adapter: vercel({
+    isr: {
+      expiration: 30,
+      allowQuery: ['slug']
+    }
+  }),
   experimental: {
     contentCollectionCache: true
   }
