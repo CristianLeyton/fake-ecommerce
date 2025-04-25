@@ -1,29 +1,33 @@
 const { API_URL } = import.meta.env;
 
-// Cache simple con tiempo de expiración
+// Cache con timestamp
 const cache = new Map();
-const CACHE_DURATION = 30 * 1000; // 30 segundos
+const CACHE_DURATION = 2 * 60 * 1000; // 2 minutos
 
 export function query(url: string) {
   const now = Date.now();
-  const cacheKey = `${url}-${Math.floor(now / CACHE_DURATION)}`;
+  const cacheKey = url;
+  const cachedData = cache.get(cacheKey);
 
-  // Si tenemos una respuesta en caché y no ha expirado, la devolvemos
-  if (cache.has(cacheKey)) {
-    return Promise.resolve(cache.get(cacheKey));
+  // Si tenemos datos en caché y no han expirado, los devolvemos
+  if (cachedData && now - cachedData.timestamp < CACHE_DURATION) {
+    return Promise.resolve(cachedData.data);
   }
 
-  // Si no hay caché o ha expirado, hacemos la petición
+  // Hacemos la petición con headers que permiten caché pero con revalidación
   return fetch(`${API_URL}/api/${url}`, {
     headers: {
-      "Cache-Control": "no-cache",
+      "Cache-Control": "max-age=300, stale-while-revalidate=60", // 5 minutos de caché, 1 minuto de revalidación
     },
   })
     .then((res) => res.json())
     .then((res) => {
       const data = res.data;
-      // Guardamos en caché
-      cache.set(cacheKey, data);
+      // Guardamos en caché con timestamp
+      cache.set(cacheKey, {
+        data,
+        timestamp: now,
+      });
       return data;
     });
 }
