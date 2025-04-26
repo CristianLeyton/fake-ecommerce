@@ -6,7 +6,8 @@ import vercel from '@astrojs/vercel/serverless';
 
 export default defineConfig({
   site: 'https://fireworks.com',
-  output: "static",
+  output: 'static',
+
   integrations: [
     tailwind(),
     sitemap(),
@@ -18,8 +19,5 @@ export default defineConfig({
     },
   },
 
-  adapter: vercel({
-    edgeMiddleware: true,
-    revalidate: true
-  }),
+  adapter: vercel(),
 });
