@@ -1,6 +1,7 @@
 ---
 import { getCategories } from "@lib/get-categories";
 import Products from "@layouts/LayoutProducts.astro";
+import ProductList from "@components/ProductList.astro";
 
 interface Category {
   id_categorie: number;
@@ -18,7 +19,6 @@ export async function getStaticPaths() {
   return categories.map((categorie: Category) => ({
     params: { slug: categorie.id_categorie.toString() },
     props: { categorie: categorie as Category },
-    revalidate: 30, // Revalidar cada 30 segundos
   }));
 }
 
@@ -26,27 +26,9 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 const { categorie } = Astro.props as { categorie: Category };
 
-//Obtengo los productos de la categoria seleccionada
-import { getProducts } from "@lib/get-products";
-import ProductCard from "@components/resources/ProductCard.astro";
-const allProducts = await getProducts(slug);
 ---
 
+
 <Products title={categorie.name}>
-  {
-    allProducts[0] ? (
-      allProducts.map((product) => {
-        const { name, description, image, price, sku } = product;
-        return (
-          <ProductCard title={name} image={image.url} price={price} sku={sku}>
-            {description}
-          </ProductCard>
-        );
-      })
-    ) : (
-      <p class="text-orange-500 font-semibold grid place-content-center text-xl col-span-full text-center p-3 bg-yellow-50 dark:bg-neutral-700 shadow rounded-lg">
-        ¡Lo siento, no hay ningun producto en esta categoria!
-      </p>
-    )
-  }
-</Products>
+  <ProductList categoryId={slug}/>
+</Products>;
