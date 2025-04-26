@@ -42,11 +42,11 @@ import DownloadIcon from "@components/resources/icons/DownloadIcon.astro";
   <div
     class="w-full text-left grid grid-cols-5 font-semibold text-base md:text-sm xl:text-base"
   >
+  <span class="col-span-3"> Nombre </span>
     <span class="text-ellipsis text-center overflow-hidden pb-2">
       <span class="hidden xl:inline-block">Cantidad</span>
       <span class="inline-block xl:hidden">Cant.</span>
     </span>
-    <span class="col-span-3"> Nombre </span>
     <span class="text-right"> Precio </span>
   </div>
 
@@ -111,8 +111,8 @@ import DownloadIcon from "@components/resources/icons/DownloadIcon.astro";
           //@ts-ignore
           price.textContent = `$${item.quantity * item.price}`;
 
-          sendWishList.insertAdjacentElement("beforeend", cant);
           sendWishList.insertAdjacentElement("beforeend", name);
+          sendWishList.insertAdjacentElement("beforeend", cant);
           sendWishList.insertAdjacentElement("beforeend", price);
         });
       }
