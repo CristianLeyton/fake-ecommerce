@@ -11,13 +11,7 @@ export default defineConfig({
   ],
   vite: {
     build: {
-      minify: 'terser',
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-        },
-      },
+      minify: 'esbuild',
     },
   },
 });
