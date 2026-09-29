@@ -8,8 +8,8 @@ export default {
 				'gray': {
 					200: '#E5E5E5',
 				},
-				'primary': '#EAB308',
-				'secondary': '#FACC15',
+				'primary': '#7e0121',
+				'secondary': '#fff6f7',
 				'terciary': '#F4F3E7'
 			}
 		},
